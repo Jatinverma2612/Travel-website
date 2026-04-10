@@ -23,7 +23,8 @@ export default function AdminBookingsPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:5000/api/bookings", {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    fetch(`${API_URL}/api/bookings`, {
       headers: { "Authorization": `Bearer ${token}` }
     })
       .then(res => res.json())

@@ -20,7 +20,8 @@ export default function BookingPage() {
   const [isBooking, setIsBooking] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/packages")
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    fetch(`${API_URL}/api/packages`)
       .then(res => res.json())
       .then(data => setPackagesList(data))
       .catch(err => console.error("Error fetching packages", err));

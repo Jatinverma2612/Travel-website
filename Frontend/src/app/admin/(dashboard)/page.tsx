@@ -25,18 +25,18 @@ export default function AdminDashboard() {
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     const headers = { "Authorization": `Bearer ${token}` };
-
-    fetch("http://localhost:5000/api/packages")
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    fetch(`${API_URL}/api/packages`)
       .then(res => res.json())
       .then(data => Array.isArray(data) && setPackages(data))
       .catch(console.error);
 
-    fetch("http://localhost:5000/api/bookings", { headers })
+    fetch(`${API_URL}/api/bookings`, { headers })
       .then(res => res.json())
       .then(data => Array.isArray(data) && setBookings(data))
       .catch(console.error);
 
-    fetch("http://localhost:5000/api/enquiries", { headers })
+    fetch(`${API_URL}/api/enquiries`, { headers })
       .then(res => res.json())
       .then(data => Array.isArray(data) && setEnquiries(data))
       .catch(console.error);

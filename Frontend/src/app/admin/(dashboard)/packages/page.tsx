@@ -10,7 +10,8 @@ export default function AdminPackagesPage() {
   const [loading, setLoading] = useState(true);
 
   const fetchPackages = () => {
-    fetch("http://localhost:5000/api/packages")
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    fetch(`${API_URL}/api/packages`)
       .then(res => res.json())
       .then(data => {
         setPackages(data);

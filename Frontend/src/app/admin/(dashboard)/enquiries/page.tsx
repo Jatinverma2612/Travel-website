@@ -15,7 +15,8 @@ export default function AdminEnquiriesPage() {
         const headers: any = {};
         if (token) headers["Authorization"] = `Bearer ${token}`;
 
-        const res = await fetch("http://localhost:5000/api/enquiries", { headers });
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetch(`${API_URL}/api/enquiries`, { headers });
         if (res.ok) {
           const data = await res.json();
           setEnquiries(data);

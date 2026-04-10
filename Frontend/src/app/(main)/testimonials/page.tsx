@@ -15,7 +15,8 @@ export default function TestimonialsPage() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/reviews");
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetch(`${API_URL}/api/reviews`);
         if (res.ok) {
           const data = await res.json();
           setReviews(data);
@@ -33,7 +34,8 @@ export default function TestimonialsPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const res = await fetch("http://localhost:5000/api/reviews", {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetch(`${API_URL}/api/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
