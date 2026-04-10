@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+}
+
+model Package {
+  id          Int       @id @default(autoincrement())
+  title       String
+  price       Float
+  duration    String
+  description String
+  image_url   String?
+  created_at  DateTime  @default(now())
+  bookings    Booking[]
+}
+
+model Booking {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  date       DateTime
+  status     String   @default("pending")
+  package_id Int
+  package    Package  @relation(fields: [package_id], references: [id])
+  created_at DateTime @default(now())
+}
+
+model Enquiry {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  phone      String?
+  subject    String?
+  message    String
+  created_at DateTime @default(now())
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  name       String
+  rating     Int
+  message    String
+  created_at DateTime @default(now())
+}

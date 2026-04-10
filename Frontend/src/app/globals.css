@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* ===========================
+   Bharat Yaatra — Global Styles
+   =========================== */
+:root {
+  --brand-blue: #2563eb;
+  --brand-blue-dark: #1d4ed8;
+  --brand-blue-light: #dbeafe;
+  --brand-gold: #f59e0b;
+  --brand-gold-dark: #d97706;
+  --brand-gold-light: #fef3c7;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base body */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #111827;
+  background-color: #ffffff;
+}
+
+/* Section label eyebrow text */
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  margin-bottom: 0.5rem;
+}
+
+/* Divider line accent */
+.accent-line {
+  display: block;
+  width: 3rem;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-blue), var(--brand-gold));
+  border-radius: 9999px;
+  margin-top: 0.75rem;
+}
+
+/* Card hover lift — applied globally to .card-hover */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(37, 99, 235, 0.15);
+}
+
+/* Button base pulse on hover */
+.btn-primary {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.4);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Gold shimmer pill */
+.pill-gold {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #78350f;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.875rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+/* Image zoom container */
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.img-zoom:hover img {
+  transform: scale(1.07);
+}
