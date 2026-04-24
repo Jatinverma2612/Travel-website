@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Star, Quote, Award, Users, ThumbsUp, Medal, Send, X } from "lucide-react";
 import toast from "react-hot-toast";
+import axiosInstance from "@/lib/axiosInstance";
+import { getAllReviews, type Review } from "@/lib/reviews";
 
 export default function TestimonialsPage() {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -15,14 +17,8 @@ export default function TestimonialsPage() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-        const res = await fetch(`${API_URL}/api/reviews`);
-        if (res.ok) {
-          const data = await res.json();
-          setReviews(data);
-        }
-      } catch (error) {
-        console.error("Failed to load reviews:", error);
+        const data = await getAllReviews();
+        setReviews(data);
       } finally {
         setLoading(false);
       }
@@ -34,25 +30,16 @@ export default function TestimonialsPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const res = await fetch(`${API_URL}/api/reviews`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await axiosInstance.post(`/api/reviews`, formData);
 
-      if (res.ok) {
-        const newReview = await res.json();
-        setReviews([newReview, ...reviews]);
-        toast.success("Review submitted successfully!");
-        setFormData({ name: "", rating: 5, message: "" });
-        setShowForm(false);
-      } else {
-        const data = await res.json();
-        toast.error(data.message || "Failed to submit review");
-      }
-    } catch (error) {
-      toast.error("An error occurred. Please try again.");
+      const newReview = res.data;
+      setReviews([newReview, ...reviews]);
+      toast.success("Review submitted successfully!");
+      setFormData({ name: "", rating: 5, message: "" });
+      setShowForm(false);
+    } catch (error: unknown) {
+      // Handled by interceptor, or fallback toast
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -177,7 +164,7 @@ export default function TestimonialsPage() {
                       {t.name}
                     </p>
                     <p className="text-[11px] text-blue-600/60 font-bold uppercase tracking-wider leading-none">
-                      {new Date(t.created_at).toLocaleDateString()}
+                      {t.created_at ? new Date(t.created_at).toLocaleDateString() : t.role}
                     </p>
                   </div>
                 </div>
@@ -204,7 +191,7 @@ export default function TestimonialsPage() {
                 className="relative z-10"
               >
                 <h3 className="text-2xl md:text-3xl font-black mb-4">Wanna share your journey?</h3>
-                <p className="text-blue-100/70 mb-8 max-w-lg mx-auto leading-relaxed">Join thousands of travellers and share your review to help others find their perfect Bharat Yaatra.</p>
+                <p className="text-blue-100/70 mb-8 max-w-lg mx-auto leading-relaxed">Join thousands of travellers and share your review to help others find their perfect Bharat Yatra.</p>
                 <button 
                   onClick={() => setShowForm(true)}
                   className="bg-white text-blue-600 font-black px-10 py-5 rounded-2xl shadow-xl hover:bg-slate-50 transition-all hover:-translate-y-1"

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Mail, MessageSquare, Reply, Phone, Tag, CalendarClock } from "lucide-react";
 import toast from "react-hot-toast";
+import axiosInstance from "@/lib/axiosInstance";
 
 export default function AdminEnquiriesPage() {
   const [enquiries, setEnquiries] = useState<any[]>([]);
@@ -11,20 +12,10 @@ export default function AdminEnquiriesPage() {
   useEffect(() => {
     const fetchEnquiries = async () => {
       try {
-        const token = localStorage.getItem("adminToken");
-        const headers: any = {};
-        if (token) headers["Authorization"] = `Bearer ${token}`;
-
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-        const res = await fetch(`${API_URL}/api/enquiries`, { headers });
-        if (res.ok) {
-          const data = await res.json();
-          setEnquiries(data);
-        } else {
-          toast.error("Failed to load enquiries");
-        }
+        const res = await axiosInstance.get(`/api/enquiries`);
+        setEnquiries(res.data);
       } catch (error) {
-        toast.error("An error occurred loading enquiries");
+        // error toast handled by interceptor
       } finally {
         setLoading(false);
       }

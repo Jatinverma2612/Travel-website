@@ -2,7 +2,9 @@
 
 /* ===========================
    Bharat Yaatra — Global Styles
+   Design System v2 — Premium Luxury
    =========================== */
+
 :root {
   --brand-blue: #2563eb;
   --brand-blue-dark: #1d4ed8;
@@ -10,14 +12,21 @@
   --brand-gold: #f59e0b;
   --brand-gold-dark: #d97706;
   --brand-gold-light: #fef3c7;
+
+  /* Shared transition */
+  --ease-premium: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-base: 300ms;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px -6px rgba(37, 99, 235, 0.08);
+  --shadow-card-hover: 0 20px 48px -12px rgba(37, 99, 235, 0.18);
+  --shadow-btn: 0 8px 28px -6px rgba(37, 99, 235, 0.35);
+  --shadow-glass: 0 8px 32px -8px rgba(0, 0, 0, 0.08);
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
-}
+/* ── Base ── */
+html { scroll-behavior: smooth; }
 
-/* Base body */
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25,7 +34,7 @@ body {
   background-color: #ffffff;
 }
 
-/* Section label eyebrow text */
+/* ── Section eyebrow ── */
 .section-eyebrow {
   display: inline-block;
   font-size: 0.75rem;
@@ -36,7 +45,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Divider line accent */
+/* ── Accent divider line ── */
 .accent-line {
   display: block;
   width: 3rem;
@@ -46,29 +55,79 @@ body {
   margin-top: 0.75rem;
 }
 
-/* Card hover lift — applied globally to .card-hover */
+/* ── Premium Card ── */
+.card-glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform var(--duration-base) var(--ease-premium),
+    box-shadow var(--duration-base) var(--ease-premium),
+    border-color var(--duration-base) ease;
+}
+.card-glass:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+/* ── Legacy card-hover (unchanged) ── */
 .card-hover {
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition:
+    transform var(--duration-base) var(--ease-premium),
+    box-shadow var(--duration-base) var(--ease-premium);
 }
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -12px rgba(37, 99, 235, 0.15);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* Button base pulse on hover */
+/* ── Premium Button ── */
 .btn-primary {
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--duration-base) ease,
+    box-shadow var(--duration-base) ease,
+    background-color var(--duration-base) ease;
 }
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+.btn-primary:hover::after { opacity: 1; }
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.4);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: var(--shadow-btn);
 }
 .btn-primary:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
+  box-shadow: none;
 }
 
-/* Gold shimmer pill */
+/* ── Ghost / outline button ── */
+.btn-ghost {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--duration-base) ease,
+    box-shadow var(--duration-base) ease,
+    background-color var(--duration-base) ease,
+    color var(--duration-base) ease;
+}
+.btn-ghost:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px -6px rgba(37, 99, 235, 0.18);
+}
+.btn-ghost:active { transform: scale(0.98); }
+
+/* ── Gold pill ── */
 .pill-gold {
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
   color: #78350f;
@@ -81,13 +140,70 @@ body {
   display: inline-block;
 }
 
-/* Image zoom container */
-.img-zoom {
-  overflow: hidden;
-}
+/* ── Image zoom container ── */
+.img-zoom { overflow: hidden; }
 .img-zoom img {
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.65s var(--ease-premium);
 }
-.img-zoom:hover img {
-  transform: scale(1.07);
+.img-zoom:hover img { transform: scale(1.07); }
+
+/* ── Glass overlay on dark sections ── */
+.glass-dark {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* ── Glow effects ── */
+.glow-blue {
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+  transition: box-shadow 0.3s ease;
+}
+.glow-blue:hover {
+  box-shadow: 0 0 24px 4px rgba(37, 99, 235, 0.2);
+}
+
+.glow-gold {
+  box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  transition: box-shadow 0.3s ease;
+}
+.glow-gold:hover {
+  box-shadow: 0 0 24px 4px rgba(245, 158, 11, 0.3);
+}
+
+/* ── Destination card overlay text ── */
+.dest-label {
+  transform: translateY(8px);
+  transition: transform 0.32s var(--ease-premium);
+}
+.group:hover .dest-label { transform: translateY(0); }
+
+/* ── Feather fade-up utility ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.animate-fade-up {
+  animation: fadeUp 0.55s var(--ease-premium) both;
+}
+
+/* ── Shimmer loading skeleton ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f8fafc; }
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }

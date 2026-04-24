@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import axiosInstance from "@/lib/axiosInstance";
 import {
   Package,
   BookOpen,
@@ -23,22 +24,16 @@ export default function AdminDashboard() {
   const [enquiries, setEnquiries] = useState<any[]>([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("adminToken");
-    const headers = { "Authorization": `Bearer ${token}` };
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    fetch(`${API_URL}/api/packages`)
-      .then(res => res.json())
-      .then(data => Array.isArray(data) && setPackages(data))
+    axiosInstance.get('/api/packages')
+      .then(res => Array.isArray(res.data) && setPackages(res.data))
       .catch(console.error);
 
-    fetch(`${API_URL}/api/bookings`, { headers })
-      .then(res => res.json())
-      .then(data => Array.isArray(data) && setBookings(data))
+    axiosInstance.get('/api/bookings')
+      .then(res => Array.isArray(res.data) && setBookings(res.data))
       .catch(console.error);
 
-    fetch(`${API_URL}/api/enquiries`, { headers })
-      .then(res => res.json())
-      .then(data => Array.isArray(data) && setEnquiries(data))
+    axiosInstance.get('/api/enquiries')
+      .then(res => Array.isArray(res.data) && setEnquiries(res.data))
       .catch(console.error);
   }, []);
 
@@ -83,7 +78,7 @@ export default function AdminDashboard() {
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 mb-8 sm:mb-12">
         <div className="space-y-1">
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Overview Dashboard</h1>
-          <p className="text-slate-400 text-sm font-medium">Monitoring Bharat Yaatra&apos;s real-time activities.</p>
+          <p className="text-slate-400 text-sm font-medium">Monitoring Bharat Yatra&apos;s real-time activities.</p>
         </div>
         
         <div className="flex items-center gap-2 sm:gap-3">

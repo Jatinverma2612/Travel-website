@@ -4,17 +4,16 @@ import Link from "next/link";
 import { PlusCircle, Edit, Trash2, IndianRupee, Clock, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import axiosInstance from "@/lib/axiosInstance";
 
 export default function AdminPackagesPage() {
   const [packages, setPackages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchPackages = () => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    fetch(`${API_URL}/api/packages`)
-      .then(res => res.json())
-      .then(data => {
-        setPackages(data);
+    axiosInstance.get("/api/packages")
+      .then(res => {
+        setPackages(res.data);
         setLoading(false);
       })
       .catch(err => {
@@ -53,20 +52,12 @@ export default function AdminPackagesPage() {
   };
 
   const doDelete = async (id: number) => {
-    const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:5000/api/packages/${id}`, {
-        method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` }
-      });
-      if (res.ok) {
-        toast.success("Package deleted successfully.");
-        fetchPackages();
-      } else {
-        toast.error("Failed to delete package.");
-      }
+      await axiosInstance.delete(`/api/packages/${id}`);
+      toast.success("Package deleted successfully.");
+      fetchPackages();
     } catch (err) {
-      toast.error("Server connection failed.");
+      // Error is handled by axios interceptor
     }
   };
 

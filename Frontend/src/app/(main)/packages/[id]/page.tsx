@@ -1,11 +1,7 @@
-import { packages } from "@/data/dummy";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { IndianRupee, Clock, CheckCircle, ArrowLeft, ShieldCheck, MapPin, Star, MessageCircle } from "lucide-react";
-
-export function generateStaticParams() {
-  return packages.map((p) => ({ id: p.id }));
-}
+import axiosInstance from "@/lib/axiosInstance";
 
 export default async function PackageDetailPage({
   params,
@@ -13,8 +9,26 @@ export default async function PackageDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const pkg = packages.find((p) => p.id === id);
-  if (!pkg) notFound();
+  let pkgData = null;
+  try {
+    const res = await axiosInstance.get(`/api/packages/${id}`);
+    pkgData = res.data;
+  } catch (error) {
+    console.error("Failed to fetch package:", error);
+  }
+
+  if (!pkgData) notFound();
+
+  // Mapping backend data to frontend structural expectations and fallbacks
+  const pkg = {
+    ...pkgData,
+    image: pkgData.image_url || pkgData.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1920",
+    itinerary: pkgData.itinerary || [
+      "Arrival and welcome briefing",
+      "Full day local sightseeing and activities",
+      "Departure and safe travels"
+    ]
+  };
 
   return (
     <div className="min-h-screen bg-slate-50/50">
@@ -118,7 +132,7 @@ export default async function PackageDetailPage({
             </div>
             <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
               <div className="space-y-0">
-                {pkg.itinerary.map((day, i) => (
+                {pkg.itinerary.map((day: string, i: number) => (
                   <div key={`itinerary-day-${i}`} className="flex gap-6 group">
                     <div className="flex flex-col items-center">
                       <div className="relative z-10 w-10 h-10 bg-blue-50 border-2 border-blue-200 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600">
@@ -208,7 +222,7 @@ export default async function PackageDetailPage({
 
             <div className="space-y-3">
               <Link
-                href="/booking"
+                href={`/booking?packageId=${pkg.id}&packageTitle=${encodeURIComponent(pkg.title)}`}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl text-center block transition-all shadow-lg shadow-blue-600/30 hover:-translate-y-0.5 active:translate-y-0"
               >
                 Instant Book Now
@@ -230,7 +244,7 @@ export default async function PackageDetailPage({
                 <span>Secure Booking Guaranteed</span>
               </div>
               <p className="text-[10px] text-gray-400 text-center leading-relaxed">
-                Experience hassle-free booking with Bharat Yaatra. No hidden charges. 24/7 dedicated travel manager for all your needs.
+                Experience hassle-free booking with Bharat Yatra. No hidden charges. 24/7 dedicated travel manager for all your needs.
               </p>
             </div>
           </div>

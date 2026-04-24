@@ -8,12 +8,20 @@ const packageRoutes = require('./routes/package.routes');
 const bookingRoutes = require('./routes/booking.routes');
 const enquiryRoutes = require('./routes/enquiry.routes');
 const reviewRoutes = require('./routes/review.routes');
+const galleryRoutes = require('./routes/gallery.routes');
 
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.FROTEND_URL,
+  credentials: true
+}));
 app.use(express.json()); // Parses incoming JSON requests
+
+// Serve static files from uploads directory
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -21,10 +29,11 @@ app.use('/api/packages', packageRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/gallery', galleryRoutes);
 
 // Root Endpoint
 app.get('/', (req, res) => {
-  res.send('Bharat Yaatra Travels API is running...');
+  res.send('Bharat Yatra Travels API is running...');
 });
 
 // Error handling middleware

@@ -22,14 +22,15 @@ const getBookings = async (req, res) => {
 // @access  Public
 const createBooking = async (req, res) => {
   try {
-    const { name, email, package_id, date } = req.body;
+    const { name, email, phone, message, package_id } = req.body;
 
     const newBooking = await prisma.booking.create({
       data: {
         name,
         email,
+        phone,
+        message,
         package_id: parseInt(package_id),
-        date: new Date(date),
         status: 'pending',
       },
     });

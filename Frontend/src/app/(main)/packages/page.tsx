@@ -4,6 +4,7 @@ import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { IndianRupee, Clock, ArrowRight, Search, MapPin, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
+import axiosInstance from "@/lib/axiosInstance";
 
 const container: Variants = {
   hidden: {},
@@ -20,11 +21,9 @@ export default function PackagesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    fetch(`${API_URL}/api/packages`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPackages(data);
+    axiosInstance.get('/api/packages')
+      .then((res) => {
+        setPackages(res.data);
         setLoading(false);
       })
       .catch((err) => {
