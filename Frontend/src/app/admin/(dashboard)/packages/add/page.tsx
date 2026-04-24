@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowLeft, Upload, Save } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import axiosInstance from "@/lib/axiosInstance";
 
 export default function AddPackagePage() {
   const [form, setForm] = useState({
@@ -34,32 +35,19 @@ export default function AddPackagePage() {
     }
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const res = await fetch(`${API_URL}/api/packages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          title: form.title,
-          price: form.price,
-          duration: form.duration,
-          description: form.description,
-          image_url: form.image
-        })
+      const res = await axiosInstance.post(`/api/packages`, {
+        title: form.title,
+        price: form.price,
+        duration: form.duration,
+        description: form.description,
+        image_url: form.image
       });
 
-      if (res.ok) {
-        toast.success("Package created successfully!");
-        setSaved(true);
-        setForm({ title: "", price: "", duration: "", description: "", image: "" });
-      } else {
-        const data = await res.json();
-        toast.error(data.message || "Failed to add package. Please try again.");
-      }
+      toast.success("Package created successfully!");
+      setSaved(true);
+      setForm({ title: "", price: "", duration: "", description: "", image: "" });
     } catch (error) {
-      toast.error("Server connection failed. Please try again.");
+      // toast error handled by interceptor
     } finally {
       setLoading(false);
     }

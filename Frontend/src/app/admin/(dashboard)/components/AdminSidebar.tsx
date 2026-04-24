@@ -13,6 +13,7 @@ import {
   MapPin,
   LogOut,
   X,
+  Image as ImageIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/admin/bookings", label: "Trip Bookings", icon: BookOpen },
   { href: "/admin/enquiries", label: "Customer Enquiries", icon: MessageSquare },
   { href: "/admin/users", label: "User Access", icon: Users },
+  { href: "/admin/gallery", label: "Manage Gallery", icon: ImageIcon },
 ];
 
 interface AdminSidebarProps {
@@ -49,7 +51,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             <MapPin className="h-5 w-5 text-white" />
           </div>
           <div className="leading-tight">
-            <p className="font-black text-white text-base tracking-tight">Bharat Yaatra</p>
+            <p className="font-black text-white text-base tracking-tight">Bharat Yatra</p>
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Admin Control</p>
           </div>
         </Link>
@@ -94,7 +96,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           <div className="flex items-center gap-3 mb-4 px-2">
             <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-black text-slate-300">AD</div>
             <div className="leading-tight">
-              <p className="text-xs font-bold text-white">Bharat Yaatra</p>
+              <p className="text-xs font-bold text-white">Bharat Yatra</p>
               <p className="text-[10px] text-slate-500">Super Administrator</p>
             </div>
           </div>

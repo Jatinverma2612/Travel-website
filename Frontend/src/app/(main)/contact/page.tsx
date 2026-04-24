@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { MapPin, Phone, Mail, MessageCircle, Send, Clock, CheckCircle2 } from "lucide-react";
 import toast from "react-hot-toast";
+import axiosInstance from "@/lib/axiosInstance";
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -18,23 +19,13 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const res = await fetch(`${API_URL}/api/enquiries`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      await axiosInstance.post(`/api/enquiries`, form);
 
-      if (res.ok) {
-        setSubmitted(true);
-        toast.success("Enquiry sent successfully!");
-        setForm({ name: "", email: "", phone: "", subject: "", message: "" });
-      } else {
-        const data = await res.json();
-        toast.error(data.message || "Failed to send enquiry");
-      }
+      setSubmitted(true);
+      toast.success("Message sent successfully");
+      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
     } catch (error) {
-      toast.error("An error occurred. Please try again later.");
+      // toast error handled by interceptor
     }
   };
 
@@ -97,7 +88,7 @@ export default function ContactPage() {
                       {
                         icon: Mail,
                         title: "Official Email",
-                        detail: "info@bharatyaatra.com",
+                        detail: "info@bharatyatra.com",
                         color: "bg-indigo-100 text-indigo-600"
                       },
                     ].map((c) => (

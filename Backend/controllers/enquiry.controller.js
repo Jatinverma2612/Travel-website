@@ -23,7 +23,7 @@ const createEnquiry = async (req, res) => {
     const { name, email, phone, subject, message } = req.body;
 
     if (!name || !email || !message) {
-      return res.status(400).json({ message: 'Name, email and message are required' });
+      return res.status(400).json({ message: 'Name, email and message are required. No empty fields allowed.' });
     }
 
     const newEnquiry = await prisma.enquiry.create({
@@ -37,12 +37,12 @@ const createEnquiry = async (req, res) => {
     });
 
     // Send email to admin
-    if (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD) {
+    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_APP_PASSWORD,
+          pass: process.env.EMAIL_PASS,
         },
       });
 

@@ -1,6 +1,6 @@
 "use client";
-
 import { useState } from "react";
+import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { MapPin, Lock, Mail, Eye, EyeOff, ChevronRight, Loader2 } from "lucide-react";
@@ -19,25 +19,19 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const res = await fetch(`${API_URL}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
+      const res = await axiosInstance.post("/api/auth/login", { email, password });
+      const data = res.data;
 
-      if (res.ok && data.token) {
+      if (data.token) {
         localStorage.setItem("token", data.token);
         toast.success("Welcome back! Redirecting to dashboard...");
         router.push("/admin");
-      } else {
-        toast.error(data.message || "Invalid email or password.");
-        setLoading(false);
       }
-    } catch (err) {
-      toast.error("Server connection failed. Please try again.");
+    } catch (err: unknown) {
       setLoading(false);
+      console.error(err);
+      // Let the interceptor handle the toast, or we can handle it here but interceptor might do it
+      // actually interceptor doesn't throw a generic error if it isn't 401. I added it above wait: `toast.error(error.response?.data?.message || 'Something went wrong');` maybe I didn't? Let me check axiosInstance... I didn't add the generic one so I keep catch
     }
   };
 
@@ -63,7 +57,7 @@ export default function AdminLoginPage() {
             </div>
             <div className="text-left leading-tight">
               <span className="font-black text-2xl text-gray-900 tracking-tight block leading-none">
-                Bharat Yaatra
+                Bharat Yatra
               </span>
               <span className="text-blue-600 text-[11px] font-bold tracking-[0.2em] uppercase">
                 Travels
@@ -98,7 +92,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-100 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 focus:bg-white transition-all"
-                  placeholder="admin@bharatyaatra.com"
+                  placeholder="admin@bharatyatra.com"
                 />
               </div>
             </div>

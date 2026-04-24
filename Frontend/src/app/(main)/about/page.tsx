@@ -86,7 +86,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-6 text-gray-500 leading-relaxed text-[15px]">
                 <p>
-                  Bharat Yaatra Travels was founded in 2009 by Arjun Sharma with a
+                  Bharat Yatra Travels was founded in 2009 by Arjun Sharma with a
                   single mission: to make the rich tapestry of India accessible and
                   memorable for every traveller — corporate or leisure.
                 </p>

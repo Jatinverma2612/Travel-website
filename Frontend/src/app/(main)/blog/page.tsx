@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Clock, User, ArrowRight, Tag, Calendar } from "lucide-react";
 
 const posts = [
@@ -80,6 +81,7 @@ const posts = [
 ];
 
 export default function BlogPage() {
+  const router = useRouter();
   return (
     <div className="bg-slate-50/50 min-h-screen">
       {/* Page Header */}
@@ -166,12 +168,12 @@ export default function BlogPage() {
                 </span>
               </div>
               
-              <Link
-                href={`/blog/${posts[0].id}`}
-                className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-5 rounded-2xl transition-all shadow-xl shadow-blue-600/20 w-fit hover:-translate-y-1"
+              <button
+                onClick={() => router.push(`/blog/${posts[0].id}`)}
+                className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-5 rounded-2xl transition-all shadow-xl shadow-blue-600/20 w-fit hover:-translate-y-1 outline-none"
               >
                 Read Fully <ArrowRight className="h-5 w-5" />
-              </Link>
+              </button>
             </div>
           </motion.div>
         </div>
@@ -232,12 +234,12 @@ export default function BlogPage() {
                        <Clock className="h-3.5 w-3.5 text-blue-400" />
                        {post.readTime}
                     </div>
-                    <Link
-                      href={`/blog/${post.id}`}
-                      className="text-blue-600 font-black text-xs uppercase tracking-widest hover:text-blue-700 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-all"
+                    <button
+                      onClick={() => router.push(`/blog/${post.id}`)}
+                      className="text-blue-600 font-black text-xs uppercase tracking-widest hover:text-blue-700 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-all outline-none"
                     >
                       Explore
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </motion.div>

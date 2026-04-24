@@ -68,7 +68,7 @@ export const testimonials = [
     id: 1,
     name: "Rajesh Kumar",
     role: "Business Traveler",
-    text: "Bharat Yaatra Travels provided an exceptionally smooth corporate booking experience. Their attention to detail is commendable.",
+    text: "Bharat Yatra Travels provided an exceptionally smooth corporate booking experience. Their attention to detail is commendable.",
     rating: 5
   },
   {

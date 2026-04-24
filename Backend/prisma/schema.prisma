@@ -29,7 +29,9 @@ model Booking {
   id         Int      @id @default(autoincrement())
   name       String
   email      String
-  date       DateTime
+  phone      String?
+  message    String?
+  date       DateTime?
   status     String   @default("pending")
   package_id Int
   package    Package  @relation(fields: [package_id], references: [id])
@@ -51,5 +53,11 @@ model Review {
   name       String
   rating     Int
   message    String
+  created_at DateTime @default(now())
+}
+
+model Gallery {
+  id         Int      @id @default(autoincrement())
+  image_url  String
   created_at DateTime @default(now())
 }

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import axiosInstance from "@/lib/axiosInstance";
 import { CheckCircle, Clock, XCircle, Loader2, Eye } from "lucide-react";
 
 const statusConfig: Record<string, { color: string; icon: React.ReactNode }> = {
@@ -22,14 +23,9 @@ export default function AdminBookingsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-    fetch(`${API_URL}/api/bookings`, {
-      headers: { "Authorization": `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if(Array.isArray(data)) setBookingsList(data);
+    axiosInstance.get('/api/bookings')
+      .then(res => {
+        if(Array.isArray(res.data)) setBookingsList(res.data);
         setLoading(false);
       })
       .catch(err => {
@@ -101,13 +97,18 @@ export default function AdminBookingsPage() {
                         <div className="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0">
                           {b.name?.charAt(0) || "U"}
                         </div>
-                        <span className="font-medium text-gray-900 truncate max-w-[120px]" title={b.name}>{b.name}</span>
+                        <div>
+                          <span className="font-medium text-gray-900 truncate max-w-[120px] block" title={b.name}>{b.name}</span>
+                          <span className="text-[11px] text-gray-500 block">{b.email}</span>
+                          {b.phone && <span className="text-[11px] text-gray-500 block">{b.phone}</span>}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-gray-600 max-w-[180px]">
-                      <p className="truncate" title={b.package?.title}>{b.package?.title || "Unknown Package"}</p>
+                      <p className="font-bold text-gray-900 truncate" title={b.package?.title}>{b.package?.title || "Unknown Package"}</p>
+                      {b.message && <p className="text-xs text-gray-500 truncate" title={b.message}>{b.message}</p>}
                     </td>
-                    <td className="px-6 py-4 text-gray-600 whitespace-nowrap">{new Date(b.date).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 text-gray-600 whitespace-nowrap">{b.date ? new Date(b.date).toLocaleDateString() : 'TBD'}</td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full ${sc.color}`}>
                         {sc.icon}
@@ -157,13 +158,23 @@ export default function AdminBookingsPage() {
                     </span>
                   </div>
                   <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 space-y-2">
-                    <div className="flex justify-between items-center text-xs">
+                    <div className="flex flex-col gap-1 text-xs">
+                       <span className="text-slate-400">Contact:</span>
+                       <span className="font-semibold text-slate-700 break-all">{b.email} {b.phone && `| ${b.phone}`}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs pt-2 border-t border-slate-100">
                        <span className="text-slate-400">Package:</span>
                        <span className="font-semibold text-slate-700 truncate max-w-[150px]">{b.package?.title || "Unknown"}</span>
                     </div>
-                    <div className="flex justify-between items-center text-xs">
+                    {b.message && (
+                      <div className="flex flex-col text-xs pt-2 border-t border-slate-100">
+                         <span className="text-slate-400">Message:</span>
+                         <span className="text-slate-600 italic break-words">{b.message}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between items-center text-xs pt-2 border-t border-slate-100">
                        <span className="text-slate-400">Travel Date:</span>
-                       <span className="font-semibold text-slate-700">{new Date(b.date).toLocaleDateString()}</span>
+                       <span className="font-semibold text-slate-700">{b.date ? new Date(b.date).toLocaleDateString() : 'TBD'}</span>
                     </div>
                   </div>
                   <button className="w-full bg-blue-50 text-blue-600 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
