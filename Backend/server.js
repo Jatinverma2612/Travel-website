@@ -33,9 +33,14 @@ app.use('/api', limiter);
 
 // Standard Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // fallback for dev
+  origin:[
+    "http://localhost:3000",
+    "https://bharatyatratravels.com",
+    "https://www.bharatyatratravels.com"
+  ],
   credentials: true
 }));
+
 app.use(express.json()); // Parses incoming JSON requests
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // Parses cookies
