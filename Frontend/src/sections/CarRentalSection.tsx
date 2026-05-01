@@ -93,7 +93,7 @@ export function CarRentalSection() {
     }
     setSubmitting(true);
     try {
-      await axiosInstance.post("/api/enquiries", {
+      await axiosInstance.post("/enquiries", {
         ...contactForm,
         subject: `Car Rental Enquiry: ${selectedCar}`,
       });

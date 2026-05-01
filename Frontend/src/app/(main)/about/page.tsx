@@ -138,22 +138,58 @@ export default function AboutPage() {
       <section className="py-16 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="text-center"
-              >
-                <div className="w-10 h-10 bg-white shadow-sm rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
-                  <s.icon className="h-5 w-5 text-blue-600" />
-                </div>
-                <h4 className="text-3xl font-extrabold text-gray-900 mb-1">{s.value}</h4>
-                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">{s.label}</p>
-              </motion.div>
-            ))}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0, duration: 0.5 }}
+              className="text-center"
+            >
+              <div className="w-10 h-10 bg-white shadow-sm rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                <Award className="h-5 w-5 text-blue-600" />
+              </div>
+              <h4 className="text-3xl font-extrabold text-gray-900 mb-1">15+</h4>
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Years Experience</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="text-center"
+            >
+              <div className="w-10 h-10 bg-white shadow-sm rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                <Users className="h-5 w-5 text-blue-600" />
+              </div>
+              <h4 className="text-3xl font-extrabold text-gray-900 mb-1">10K+</h4>
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Happy Travellers</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="text-center"
+            >
+              <div className="w-10 h-10 bg-white shadow-sm rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                <Globe className="h-5 w-5 text-blue-600" />
+              </div>
+              <h4 className="text-3xl font-extrabold text-gray-900 mb-1">50+</h4>
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Destinations</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="text-center"
+            >
+              <div className="w-10 h-10 bg-white shadow-sm rounded-lg flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                <Smile className="h-5 w-5 text-blue-600" />
+              </div>
+              <h4 className="text-3xl font-extrabold text-gray-900 mb-1">4.9/5</h4>
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Review Rating</p>
+            </motion.div>
           </div>
         </div>
       </section>

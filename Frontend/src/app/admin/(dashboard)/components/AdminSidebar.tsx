@@ -14,17 +14,19 @@ import {
   LogOut,
   X,
   Image as ImageIcon,
+  ChevronRight,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 
 const navItems = [
-  { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/packages", label: "Manage Packages", icon: Package },
-  { href: "/admin/packages/add", label: "Create Package", icon: PlusCircle },
-  { href: "/admin/bookings", label: "Trip Bookings", icon: BookOpen },
-  { href: "/admin/enquiries", label: "Customer Enquiries", icon: MessageSquare },
-  { href: "/admin/users", label: "User Access", icon: Users },
-  { href: "/admin/gallery", label: "Manage Gallery", icon: ImageIcon },
+  { href: "/admin", label: "Overview", icon: LayoutDashboard, group: "main" },
+  { href: "/admin/packages", label: "Manage Packages", icon: Package, group: "main" },
+  { href: "/admin/packages/add", label: "Create Package", icon: PlusCircle, group: "main" },
+  { href: "/admin/bookings", label: "Trip Bookings", icon: BookOpen, group: "main" },
+  { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare, group: "main" },
+  { href: "/admin/gallery", label: "Gallery", icon: ImageIcon, group: "main" },
+  { href: "/admin/users", label: "User Access", icon: Users, group: "settings" },
 ];
 
 interface AdminSidebarProps {
@@ -35,77 +37,109 @@ interface AdminSidebarProps {
 export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { logout } = useAuth();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    toast.success("Logged out successfully");
-    router.push("/admin/login");
+  const handleLogout = async () => {
+    const success = await logout();
+    if (success) {
+      router.push("/admin/login");
+    }
   };
 
   const SidebarContent = (
-    <div className="flex flex-col h-full bg-slate-950 text-slate-400 border-r border-slate-900 overflow-y-auto">
+    <div className="flex flex-col h-full bg-[#0f1117] text-slate-400 overflow-y-auto">
       {/* Brand Section */}
-      <div className="px-8 py-8 sm:py-10 flex items-center justify-between">
-        <Link href="/admin" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
-            <MapPin className="h-5 w-5 text-white" />
+      <div className="px-6 py-7 flex items-center justify-between border-b border-white/5">
+        <Link href="/admin" className="flex items-center gap-3 group">
+          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:shadow-blue-600/50 group-hover:scale-105 transition-all duration-300">
+            <MapPin className="h-4.5 w-4.5 text-white" />
           </div>
           <div className="leading-tight">
-            <p className="font-black text-white text-base tracking-tight">Bharat Yatra</p>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Admin Control</p>
+            <p className="font-black text-white text-sm tracking-tight">Bharat Yatra</p>
+            <p className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em]">Admin Portal</p>
           </div>
         </Link>
-        {/* Close button for mobile */}
-        <button 
+        <button
           onClick={onClose}
-          className="lg:hidden p-2 hover:bg-slate-900 rounded-xl transition-colors text-slate-500"
+          className="lg:hidden p-1.5 hover:bg-white/5 rounded-lg transition-colors text-slate-500 hover:text-slate-300"
         >
-          <X className="h-5 w-5" />
+          <X className="h-4 w-4" />
         </button>
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 px-4 space-y-1.5">
-        <p className="px-4 text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] mb-4 mt-2">Main Menu</p>
-        {navItems.map((item) => {
+      <nav className="flex-1 px-3 py-4 space-y-0.5">
+        <p className="px-3 text-[9px] font-black text-slate-600 uppercase tracking-[0.25em] mb-3 mt-1">Main Menu</p>
+        {navItems.filter(i => i.group === "main").map((item) => {
           const active = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => { if (window.innerWidth < 1024) onClose(); }}
-              className={`group/nav flex items-center justify-between px-4 py-3 rounded-2xl text-[13px] font-bold transition-all duration-300 ${
+              className={`group/nav relative flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 ${
                 active
-                  ? "bg-blue-600/10 text-blue-400 shadow-sm"
-                  : "hover:bg-slate-900 hover:text-slate-200"
+                  ? "bg-blue-600/15 text-blue-400"
+                  : "hover:bg-white/5 hover:text-slate-200 text-slate-500"
               }`}
             >
-              <div className="flex items-center gap-3">
-                <item.icon className={`h-4 w-4 transition-colors ${active ? "text-blue-400" : "group-hover/nav:text-slate-200"}`} />
+              {active && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-blue-500 rounded-r-full" />
+              )}
+              <div className="flex items-center gap-2.5">
+                <item.icon className={`h-4 w-4 transition-colors ${active ? "text-blue-400" : "text-slate-600 group-hover/nav:text-slate-300"}`} />
                 {item.label}
               </div>
-              {active && <div className="w-1 h-4 bg-blue-600 rounded-full" />}
+              {active && <ChevronRight className="h-3.5 w-3.5 text-blue-500" />}
+            </Link>
+          );
+        })}
+
+        <p className="px-3 text-[9px] font-black text-slate-600 uppercase tracking-[0.25em] mb-3 mt-5">Settings</p>
+        {navItems.filter(i => i.group === "settings").map((item) => {
+          const active = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => { if (window.innerWidth < 1024) onClose(); }}
+              className={`group/nav relative flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 ${
+                active
+                  ? "bg-blue-600/15 text-blue-400"
+                  : "hover:bg-white/5 hover:text-slate-200 text-slate-500"
+              }`}
+            >
+              {active && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-blue-500 rounded-r-full" />
+              )}
+              <div className="flex items-center gap-2.5">
+                <item.icon className={`h-4 w-4 transition-colors ${active ? "text-blue-400" : "text-slate-600 group-hover/nav:text-slate-300"}`} />
+                {item.label}
+              </div>
+              {active && <ChevronRight className="h-3.5 w-3.5 text-blue-500" />}
             </Link>
           );
         })}
       </nav>
 
       {/* User / Logout Section */}
-      <div className="p-4">
-        <div className="bg-slate-900/50 rounded-3xl p-4 border border-slate-900">
-          <div className="flex items-center gap-3 mb-4 px-2">
-            <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-black text-slate-300">AD</div>
+      <div className="p-3 border-t border-white/5">
+        <div className="bg-white/[0.03] rounded-2xl p-3 border border-white/5">
+          <div className="flex items-center gap-3 mb-3 px-1">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-xs font-black text-white shadow-lg">
+              AD
+            </div>
             <div className="leading-tight">
               <p className="text-xs font-bold text-white">Bharat Yatra</p>
-              <p className="text-[10px] text-slate-500">Super Administrator</p>
+              <p className="text-[10px] text-slate-500">Super Admin</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-[12px] font-black bg-slate-800 text-slate-300 hover:bg-red-900/40 hover:text-red-400 hover:border-red-900 transition-all w-full border border-slate-700 shadow-sm"
+            className="group/logout flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-[12px] font-bold bg-transparent text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition-all w-full border border-white/5 hover:border-red-500/20"
           >
-            <LogOut className="h-3.5 w-3.5" />
-            Logout
+            <LogOut className="h-3.5 w-3.5 group-hover/logout:rotate-12 transition-transform" />
+            Sign Out
           </button>
         </div>
       </div>
@@ -115,7 +149,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-72 h-screen sticky top-0 flex-col shrink-0 border-r border-slate-900">
+      <aside className="hidden lg:flex w-64 h-screen sticky top-0 flex-col shrink-0 border-r border-white/5">
         {SidebarContent}
       </aside>
 
@@ -123,21 +157,19 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onClose}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] lg:hidden"
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] lg:hidden"
             />
-            {/* Drawer */}
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 bottom-0 w-[280px] z-[101] lg:hidden"
+              transition={{ type: "spring", damping: 28, stiffness: 220 }}
+              className="fixed top-0 left-0 bottom-0 w-64 z-[101] lg:hidden"
             >
               {SidebarContent}
             </motion.div>

@@ -1,28 +1,28 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import ToastProvider from "./ToastProvider";
-import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import { Inter } from "next/font/google";
+import ClientProviders from "@/components/ClientProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Bharat Yatra Travels - Professional Travel Packages",
-  description: "Explore India with Bharat Yatra Travels. Premium corporate and family travel packages.",
+export const metadata = {
+  title: "Bharat Yatra Travels | Premium Luxury Travel in India",
+  description: "Experience the best of India with Bharat Yatra Travels. Luxury packages, corporate travel, and custom itineraries.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <SmoothScrollProvider>
+    <html lang="en" className={inter.className}>
+      <body className="antialiased bg-slate-50 text-slate-900 min-h-screen">
+        <ClientProviders>
           {children}
-        </SmoothScrollProvider>
-        <ToastProvider />
+        </ClientProviders>
       </body>
     </html>
   );

@@ -30,7 +30,7 @@ export default function TestimonialsPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const res = await axiosInstance.post(`/api/reviews`, formData);
+      const res = await axiosInstance.post(`/reviews`, formData);
 
       const newReview = res.data;
       setReviews([newReview, ...reviews]);

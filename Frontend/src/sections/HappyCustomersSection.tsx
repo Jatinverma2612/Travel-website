@@ -21,7 +21,7 @@ export function HappyCustomersSection() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await axiosInstance.get(`/api/gallery`);
+        const res = await axiosInstance.get(`/gallery`);
         setImages(res.data);
       } catch (err) {
         console.error(err);

@@ -1,11 +1,9 @@
-import { ArrowLeft, CheckCircle, PackageSearch, MapPin, Clock, Users } from "lucide-react";
-import Link from "next/link";
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "North India Tour Packages | Bharat Yatra Travels",
-  description: "Explore the beauty of North India with destinations like Delhi, Manali, Shimla, and Kashmir. Experience the pristine Himalayas, culturally rich plains, and historic monuments.",
-};
+import { ArrowLeft, ArrowRight, CheckCircle, PackageSearch, MapPin, Clock, Users, Phone } from "lucide-react";
+import Link from "next/link";
+import PackageHero from "@/sections/PackageHero";
+import PackageCard from "@/components/PackageCard";
 
 const highlights = [
   "Majestic Himalayan Views & Snow-Capped Peaks",
@@ -24,64 +22,53 @@ const dummyPackages = [
 
 export default function NorthIndiaPage() {
   return (
-    <div className="min-h-screen bg-slate-50 pt-[66px]">
-      {/* Hero */}
-      <div
-        className="relative h-[60vh] flex items-center overflow-hidden"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1920')", backgroundSize: "cover", backgroundPosition: "center" }}
-      >
-        <div className="absolute inset-0 bg-slate-900/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <span className="inline-block text-amber-400 text-xs font-black uppercase tracking-widest mb-4 border border-amber-400/30 bg-amber-400/10 px-3 py-1 rounded-full">Domestic Tour</span>
-          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-4 leading-tight max-w-3xl">
-            North India Tour Packages
-          </h1>
-          <p className="text-slate-200 text-lg max-w-2xl leading-relaxed">
-            From the snow-capped Himalayas to the golden deserts — discover India's heartland in style.
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-slate-50">
+      <PackageHero 
+        title="North India Tour Packages"
+        description="From the snow-capped Himalayas to the golden deserts — discover India's heartland in style with our expertly curated north indian itineraries."
+        image="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1920"
+        badge="Domestic Tour"
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <Link href="/packages" className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold mb-10 transition-colors text-sm">
-          <ArrowLeft className="w-4 h-4" /> Back to All Packages
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <Link href="/packages" className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold mb-12 transition-all duration-300 hover:-translate-x-1 group text-sm">
+          <ArrowLeft className="w-4 h-4 group-hover:scale-110" /> Back to All Packages
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Left */}
-          <div className="lg:col-span-2 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+          {/* Left Content */}
+          <div className="lg:col-span-2 space-y-12">
             {/* Overview */}
-            <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-              <h2 className="text-2xl font-extrabold text-gray-900 mb-4">Experience Overview</h2>
-              <p className="text-slate-600 leading-[1.9] text-[15px]">
+            <section className="bg-white p-8 sm:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-slate-100">
+              <h2 className="text-3xl font-black text-slate-900 mb-6 tracking-tight">Experience Overview</h2>
+              <p className="text-slate-600 leading-[2] text-[16px] font-medium">
                 Explore the beauty of North India with destinations like Delhi, Manali, Shimla, and Kashmir. 
                 Experience the pristine Himalayas, culturally rich plains, and historic monuments all in one majestic journey. 
                 Our expert team ensures seamless transitions between every destination, letting you immerse fully in each unique experience.
               </p>
-              <div className="grid grid-cols-3 gap-4 mt-8 pt-8 border-t border-slate-50">
+              <div className="grid grid-cols-3 gap-6 mt-10 pt-10 border-t border-slate-100">
                 {[{ icon: Clock, label: "Duration", val: "4–9 Days" }, { icon: Users, label: "Group Size", val: "2–12 Pax" }, { icon: MapPin, label: "Highlights", val: "12+ Cities" }].map(({ icon: Icon, label, val }) => (
-                  <div key={label} className="text-center">
-                    <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-2">
-                      <Icon className="w-5 h-5 text-blue-600" />
+                  <div key={label} className="text-center group">
+                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
+                      <Icon className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                     </div>
-                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{label}</p>
-                    <p className="font-bold text-gray-900 text-sm mt-0.5">{val}</p>
+                    <p className="text-[11px] text-slate-400 font-black uppercase tracking-widest">{label}</p>
+                    <p className="font-bold text-slate-900 text-sm mt-1">{val}</p>
                   </div>
                 ))}
               </div>
             </section>
 
             {/* Highlights */}
-            <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-              <h2 className="text-2xl font-extrabold text-gray-900 mb-6">Key Highlights</h2>
-              <div className="space-y-3.5">
+            <section className="bg-white p-8 sm:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-slate-100">
+              <h2 className="text-3xl font-black text-slate-900 mb-8 tracking-tight">Key Highlights</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {highlights.map((hl, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-green-50 rounded-full flex items-center justify-center shrink-0">
-                      <CheckCircle className="w-3.5 h-3.5 text-green-600" />
+                  <div key={i} className="flex items-center gap-4 p-3 hover:bg-slate-50 rounded-2xl transition-all duration-200">
+                    <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center shrink-0 border border-green-100">
+                      <CheckCircle className="w-4 h-4 text-green-600" />
                     </div>
-                    <span className="text-slate-700 font-medium text-[14px]">{hl}</span>
+                    <span className="text-slate-700 font-semibold text-[15px]">{hl}</span>
                   </div>
                 ))}
               </div>
@@ -89,37 +76,44 @@ export default function NorthIndiaPage() {
 
             {/* Package Cards */}
             <section>
-              <h2 className="text-2xl font-extrabold text-gray-900 mb-6">Popular North India Packages</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-3xl font-black text-slate-900 tracking-tight">Popular Packages</h2>
+                <div className="h-px bg-slate-200 flex-1 mx-8 hidden sm:block" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {dummyPackages.map((pkg, i) => (
-                  <div key={i} className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest bg-blue-50 px-2 py-1 rounded-full">{pkg.duration}</span>
-                    <h3 className="font-extrabold text-gray-900 text-[16px] mt-3 mb-4">{pkg.title}</h3>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xl font-black text-blue-600">₹{pkg.price}<span className="text-xs text-slate-400 font-medium">/person</span></span>
-                      <Link href="/contact" className="text-xs font-bold text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-xl transition-colors">Enquire</Link>
-                    </div>
-                  </div>
+                  <PackageCard 
+                    key={i} 
+                    title={pkg.title} 
+                    duration={pkg.duration} 
+                    price={pkg.price} 
+                  />
                 ))}
               </div>
             </section>
           </div>
 
           {/* Sidebar */}
-          <aside className="space-y-6">
-            <div className="bg-blue-600 rounded-3xl p-8 text-white shadow-xl shadow-blue-900/10 text-center relative overflow-hidden">
-              <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-500 rounded-full blur-[40px]" />
-              <PackageSearch className="w-10 h-10 mx-auto mb-4 text-blue-200 relative z-10" />
-              <h3 className="text-xl font-bold mb-2 relative z-10">Plan Your Trip</h3>
-              <p className="text-blue-100 text-sm mb-6 relative z-10">Get a custom North India itinerary tailored to your budget and travel style.</p>
-              <Link href="/contact" className="block w-full bg-white text-blue-600 font-bold py-3.5 rounded-xl shadow-md hover:shadow-xl transition-all relative z-10 text-sm">
-                Request Custom Itinerary
+          <aside className="space-y-8">
+            <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white shadow-2xl shadow-slate-900/20 text-center relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-blue-600/20 to-transparent pointer-events-none" />
+              <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-600/20 rounded-full blur-3xl" />
+              
+              <PackageSearch className="w-14 h-14 mx-auto mb-6 text-blue-400 relative z-10 group-hover:scale-110 transition-transform duration-500" />
+              <h3 className="text-2xl font-black mb-3 relative z-10 tracking-tight">Need a Custom Trip?</h3>
+              <p className="text-slate-400 text-[15px] mb-8 relative z-10 leading-relaxed font-medium">Get a personalized North India itinerary tailored to your specific budget and preferences.</p>
+              <Link href="/contact" className="block w-full bg-white text-slate-900 font-black py-4 rounded-2xl shadow-xl hover:bg-blue-50 hover:scale-[1.03] transition-all duration-300 relative z-10">
+                Design My Journey
               </Link>
             </div>
-            <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center">
-              <p className="text-sm font-bold text-gray-900 mb-1">📞 Talk to an Expert</p>
-              <p className="text-slate-400 text-xs mb-4">Available Mon–Sat, 9am–7pm</p>
-              <a href="tel:+919958847804" className="block font-black text-blue-600 text-lg hover:underline">+91 9958847804</a>
+            
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm text-center group hover:border-blue-200 transition-colors duration-300">
+              <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 transition-colors duration-300">
+                <Phone className="w-6 h-6 text-blue-600 group-hover:text-white" />
+              </div>
+              <p className="text-sm font-black text-slate-900 mb-1 tracking-tight">Talk to an Expert</p>
+              <p className="text-slate-400 text-xs mb-6 font-medium">Available Mon–Sat, 9am–7pm</p>
+              <a href="tel:+919958847804" className="block font-black text-blue-600 text-xl hover:scale-105 transition-transform">+91 9958847804</a>
             </div>
           </aside>
         </div>

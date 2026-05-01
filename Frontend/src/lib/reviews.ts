@@ -51,7 +51,7 @@ export async function getAllReviews(): Promise<Review[]> {
     
     // Fetch DB Reviews
     try {
-      const res = await axiosInstance.get(`/api/reviews`);
+      const res = await axiosInstance.get(`/reviews`);
       if (Array.isArray(res.data)) {
         dbReviews = res.data;
       }

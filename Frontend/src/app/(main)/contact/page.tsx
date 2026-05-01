@@ -19,7 +19,7 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axiosInstance.post(`/api/enquiries`, form);
+      await axiosInstance.post(`/enquiries`, form);
 
       setSubmitted(true);
       toast.success("Message sent successfully");

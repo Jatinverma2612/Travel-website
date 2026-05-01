@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description: "Explore our premium fleet of vehicles for your journey. Book secure and comfortable car rentals with professional drivers at Bharat Yatra Travels.",
 };
 
+
 export default function CarRentalPage() {
   return (
     <main className="min-h-screen bg-slate-50 flex flex-col pt-[66px]">

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { CheckCircle2, Star } from "lucide-react";
 import Link from "next/link";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const features = [
   {
@@ -24,9 +25,9 @@ const features = [
 ];
 
 const stats = [
-  { value: "15+", label: "Years Experience" },
-  { value: "10K+", label: "Happy Travellers" },
-  { value: "50+", label: "Destinations" },
+  { value: 15, label: "Years Experience", suffix: "+" },
+  { value: 10, label: "Happy Travellers", suffix: "K+" },
+  { value: 50, label: "Destinations", suffix: "+" },
 ];
 
 export function WhyChooseUsSection() {
@@ -89,7 +90,9 @@ export function WhyChooseUsSection() {
                   transition={{ delay: 0.4 + i * 0.1, duration: 0.4 }}
                   className="text-left"
                 >
-                  <p className="text-2xl font-extrabold text-blue-600 leading-none">{s.value}</p>
+                  <p className="text-2xl font-extrabold text-blue-600 leading-none">
+                    <AnimatedCounter to={s.value} suffix={s.suffix} duration={1.5} />
+                  </p>
                   <p className="text-xs text-gray-500 font-medium mt-1 uppercase tracking-wide">{s.label}</p>
                 </motion.div>
               ))}

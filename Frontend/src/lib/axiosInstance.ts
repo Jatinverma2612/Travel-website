@@ -1,50 +1,86 @@
 import axios from 'axios';
-import toast from 'react-hot-toast';
+
+const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000',
+  baseURL: baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
+// Helper: only show toasts on the client side
+function showToast(type: 'error' | 'success', message: string) {
+  if (typeof window === 'undefined') return;
+  import('react-hot-toast').then(({ default: toast }) => {
+    if (type === 'error') toast.error(message);
+    else toast.success(message);
+  });
+}
+
 axiosInstance.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
+  async (error) => {
+    const originalRequest = error?.config;
+
+    // If 401 and not already retrying
+    if (error?.response?.status === 401 && originalRequest && !originalRequest._retry) {
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        
-        // Only show "Session expired" if we're NOT on the login page
-        if (window.location.pathname !== '/admin/login') {
-          toast.error('Session expired. Please login again.');
+        // If we're on the login page, don't try to refresh
+        if (window.location.pathname === '/admin/login') {
+          const message = error.response?.data?.message || 'Invalid credentials';
+          showToast('error', message);
+          return Promise.reject(error);
+        }
+
+        originalRequest._retry = true;
+
+        try {
+          // Use basic axios to avoid interceptor loop
+          const res = await axios.post(
+            `${baseURL}/api/auth/refresh-token`,
+            {},
+            { withCredentials: true }
+          );
+
+          const { token } = res.data;
+          
+          if (token) {
+            localStorage.setItem('accessToken', token);
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return axiosInstance(originalRequest);
+          }
+        } catch (refreshError) {
+          // Refresh failed - clear everything and redirect
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('user');
+          
           if (window.location.pathname.startsWith('/admin')) {
+            showToast('error', 'Session expired. Please login again.');
             window.location.href = '/admin/login';
           }
-        } else {
-          // If we ARE on the login page, it's likely invalid credentials
-          toast.error(error.response?.data?.message || 'Invalid email or password');
+          return Promise.reject(refreshError);
         }
       }
-    } else {
-      const message = error.response?.data?.message || error.message || 'Something went wrong';
-      toast.error(message);
     }
+
+    // Handle other errors
+    const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
+    showToast('error', message);
     return Promise.reject(error);
   }
 );
