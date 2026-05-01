@@ -1,12 +1,16 @@
 import axios from 'axios';
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!baseURL) {
+  throw new Error("NEXT_PUBLIC_API_URL is not defined");
+}
 
 const axiosInstance = axios.create({
-  baseURL: baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`,
+  baseURL: baseURL.replace(/\/$/, "") + "/api", // remove trailing slash + add /api safely
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
