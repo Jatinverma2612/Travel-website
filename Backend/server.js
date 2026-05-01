@@ -56,6 +56,11 @@ app.get('/', (req, res) => {
   res.send('Bharat Yatra Travels API is running...');
 });
 
+//testing backend 
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Backend is working' });
+});
+
 // Centralized Error handling middleware
 app.use(errorHandler);
 
