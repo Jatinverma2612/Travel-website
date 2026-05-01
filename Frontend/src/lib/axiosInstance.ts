@@ -7,7 +7,7 @@ if (!baseURL) {
 }
 
 const axiosInstance = axios.create({
-  baseURL: baseURL.replace(/\/$/, "") + "/api", // remove trailing slash + add /api safely
+  baseURL: baseURL.replace(/\/$/, "") + "/api", 
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
