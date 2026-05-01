@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 // Import Swiper styles
 import "swiper/css";
@@ -18,6 +19,7 @@ const slides = [
   "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Kerala / Backwaters
   "https://i.pinimg.com/736x/09/60/43/0960431bb2c967035f858ced179f7ca6.jpg", // Varanasi / Culture
   "https://i.pinimg.com/1200x/3f/31/b8/3f31b8cc765742934869be454cfda12c.jpg", // Ladakh / Mountains
+  "https://plus.unsplash.com/premium_photo-1697729690458-2d64ca777c04?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" //manali
 ];
 
 export function HeroSection() {
@@ -85,7 +87,7 @@ export function HeroSection() {
         </button>
       </div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-20 sm:pb-24 z-10 pointer-events-none">
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 pb-20 sm:pb-24 z-10 pointer-events-none">
         <div className="max-w-xl sm:max-w-2xl pointer-events-auto">
           {/* Eyebrow badge */}
           <motion.div
@@ -153,16 +155,16 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.85, duration: 0.7 }}
-            className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-white/20 grid grid-cols-3 gap-4 sm:gap-6 max-w-xs sm:max-w-sm"
+            className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-white/20 grid grid-cols-3 gap-4 sm:gap-6 max-w-xs sm:max-w-sm pointer-events-auto"
           >
             {[
-              { value: "50+", label: "Destinations" },
-              { value: "10K+", label: "Happy Travellers" },
-              { value: "15+", label: "Years Experience" },
+              { value: 50, label: "Destinations", suffix: "+" },
+              { value: 10, label: "Happy Travellers", suffix: "K+" },
+              { value: 15, label: "Years Experience", suffix: "+" },
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <p className="text-2xl sm:text-3xl font-extrabold text-amber-400 leading-none mb-1 drop-shadow-md">
-                  {s.value}
+                  <AnimatedCounter to={s.value} suffix={s.suffix} duration={2} />
                 </p>
                 <p className="text-[10px] sm:text-xs text-white font-medium leading-tight shadow-black drop-shadow-sm">{s.label}</p>
               </div>

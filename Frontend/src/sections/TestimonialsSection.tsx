@@ -39,7 +39,7 @@ export function TestimonialsSection() {
     }
     setSubmittingContact(true);
     try {
-      await axiosInstance.post(`/api/enquiries`, contactForm);
+      await axiosInstance.post(`/enquiries`, contactForm);
       toast.success("Message sent successfully!");
       setContactSubmitted(true);
       setContactForm({ name: "", email: "", phone: "", subject: "", message: "" });

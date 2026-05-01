@@ -20,7 +20,7 @@ export function FeaturedPackages() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axiosInstance.get(`/api/packages`)
+    axiosInstance.get(`/packages`)
       .then((res) => {
         const featured = Array.isArray(res.data) ? res.data.slice(0, 4) : [];
         setPackages(featured);

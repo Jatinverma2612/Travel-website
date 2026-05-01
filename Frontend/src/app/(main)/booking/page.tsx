@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { CheckCircle2, ShieldCheck, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/lib/axiosInstance";
 
-export default function BookingPage() {
+function BookingForm() {
   const searchParams = useSearchParams();
   const packageId = searchParams.get("packageId");
   const packageTitle = searchParams.get("packageTitle");
@@ -26,7 +26,7 @@ export default function BookingPage() {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const res = await axiosInstance.get(`/api/packages`);
+        const res = await axiosInstance.get(`/packages`);
         setPackages(res.data);
       } catch (error) {
         console.error("Failed to load packages");
@@ -43,7 +43,7 @@ export default function BookingPage() {
     }
 
     try {
-      await axiosInstance.post(`/api/bookings`, form);
+      await axiosInstance.post(`/bookings`, form);
 
       setSubmitted(true);
       toast.success("Message sent successfully");
@@ -190,5 +190,13 @@ export default function BookingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <BookingForm />
+    </Suspense>
   );
 }

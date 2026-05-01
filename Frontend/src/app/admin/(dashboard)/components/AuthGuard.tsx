@@ -9,10 +9,11 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken") || localStorage.getItem("token");
     if (!token) {
       router.push("/admin/login");
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsAuthenticated(true);
     }
   }, [router]);

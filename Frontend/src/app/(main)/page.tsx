@@ -1,28 +1,29 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { HeroSection } from "@/sections/HeroSection";
-import { WhyChooseUsSection } from "@/sections/WhyChooseUsSection";
-import { DestinationsSection } from "@/sections/DestinationsSection";
-import { ServicesSection } from "@/sections/ServicesSection";
 import { FeaturedPackages } from "@/sections/FeaturedPackages";
-import { HappyCustomersSection } from "@/sections/HappyCustomersSection";
-import { CarRentalSection } from "@/sections/CarRentalSection";
+import { ServicesSection } from "@/sections/ServicesSection";
+import { DestinationsSection } from "@/sections/DestinationsSection";
+import { WhyChooseUsSection } from "@/sections/WhyChooseUsSection";
 import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { CTASection } from "@/sections/CTASection";
+import { HappyCustomersSection } from "@/sections/HappyCustomersSection";
+import { CarRentalSection } from "@/sections/CarRentalSection";
+import DelhiHero from "@/sections/DelhiHero";
 
 export default function HomePage() {
   return (
-    <>
+    <div className="flex flex-col gap-0 overflow-hidden">
       <HeroSection />
-      <WhyChooseUsSection />
-      <DestinationsSection />
-      <ServicesSection />
+      <DelhiHero />
       <FeaturedPackages />
-      <HappyCustomersSection />
+      <ServicesSection />
+      <DestinationsSection />
+      <WhyChooseUsSection />
       <CarRentalSection />
+      <HappyCustomersSection />
       <TestimonialsSection />
       <CTASection />
-    </>
+    </div>
   );
 }

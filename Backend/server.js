@@ -1,26 +1,46 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
+const path = require('path');
 
 // Import routes
-const authRoutes = require('./routes/auth.routes');
-const packageRoutes = require('./routes/package.routes');
-const bookingRoutes = require('./routes/booking.routes');
-const enquiryRoutes = require('./routes/enquiry.routes');
-const reviewRoutes = require('./routes/review.routes');
-const galleryRoutes = require('./routes/gallery.routes');
+const authRoutes = require('./modules/auth/auth.routes');
+const packageRoutes = require('./modules/package/package.routes');
+const bookingRoutes = require('./modules/booking/booking.routes');
+const enquiryRoutes = require('./modules/enquiry/enquiry.routes');
+const reviewRoutes = require('./modules/review/review.routes');
+const galleryRoutes = require('./modules/gallery/gallery.routes');
+
+const errorHandler = require('./middleware/error.middleware');
 
 const app = express();
 
-// Middleware
+// Security Middleware
+app.use(helmet({
+  crossOriginResourcePolicy: false, // Allows images to be loaded cross-origin
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again after 15 minutes',
+});
+app.use('/api', limiter);
+
+// Standard Middleware
 app.use(cors({
-  origin: process.env.FROTEND_URL,
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // fallback for dev
   credentials: true
 }));
 app.use(express.json()); // Parses incoming JSON requests
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); // Parses cookies
 
 // Serve static files from uploads directory
-const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API Routes
@@ -36,14 +56,8 @@ app.get('/', (req, res) => {
   res.send('Bharat Yatra Travels API is running...');
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode).json({
-    message: err.message,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : null,
-  });
-});
+// Centralized Error handling middleware
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

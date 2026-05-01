@@ -11,7 +11,7 @@ export default async function PackageDetailPage({
   const { id } = await params;
   let pkgData = null;
   try {
-    const res = await axiosInstance.get(`/api/packages/${id}`);
+    const res = await axiosInstance.get(`/packages/${id}`);
     pkgData = res.data;
   } catch (error) {
     console.error("Failed to fetch package:", error);
