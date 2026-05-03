@@ -22,8 +22,8 @@ const createEnquiry = async (enquiryData) => {
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Sending to admin info@bharatyatratravels.com
+      from: `"Bharat Yatra Travels" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, // Sending to admin
       subject: `New Travel Enquiry from ${enquiryData.name}`,
       text: `You have received a new enquiry from your website:\n\n` +
             `👤 Name: ${enquiryData.name}\n` +
@@ -34,15 +34,16 @@ const createEnquiry = async (enquiryData) => {
             `--- End of Enquiry ---`,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Error sending enquiry email:', error.message);
-      } else {
-        console.log('Enquiry email sent successfully:', info.response);
-      }
-    });
+    try {
+      console.log(`[DEBUG] Attempting to send enquiry email from ${process.env.EMAIL_USER}...`);
+      const info = await transporter.sendMail(mailOptions);
+      console.log('[DEBUG] Enquiry email sent successfully:', info.response);
+    } catch (error) {
+      console.error('[DEBUG] Error sending enquiry email:', error);
+      // We don't throw here to avoid failing the DB record creation, but we log the error
+    }
   } else {
-    console.warn('Enquiry email not sent: Email credentials not configured or using placeholders in .env');
+    console.warn('[DEBUG] Enquiry email skipped: Credentials missing or using placeholders.');
   }
 
   return newEnquiry;
