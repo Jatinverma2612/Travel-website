@@ -216,10 +216,10 @@ export function Footer() {
                 </div>
                 <div className="flex-1 text-left">
                   <a
-                    href="mailto:bharatyatra@outlook.com"
+                    href="mailto:info@bharatyatratravels.com"
                     className="text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors duration-300 break-all"
                   >
-                    bharatyatra@outlook.com
+                    info@bharatyatratravels.com
                   </a>
                 </div>
               </li>

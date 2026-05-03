@@ -79,7 +79,7 @@ export const LoginForm = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-slate-50 border border-slate-100 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 focus:bg-white transition-all"
-                  placeholder="admin@bharatyatra.com"
+                  placeholder="info@bharatyatratravels.com"
                 />
               </div>
             </div>
@@ -88,9 +88,9 @@ export const LoginForm = () => {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between ml-1">
                 <label className="text-[13px] font-bold text-gray-700">Password</label>
-                <button type="button" className="text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                <Link href="/admin/forgot-password" className="text-[12px] font-bold text-blue-600 hover:text-blue-700 transition-colors">
                   Forgot?
-                </button>
+                </Link>
               </div>
               <div className="relative group">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors">

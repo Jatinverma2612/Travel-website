@@ -8,14 +8,15 @@ const options = {
   maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
 };
 
-const register = catchAsync(async (req, res) => {
-  const { admin, accessToken, refreshToken } = await authService.registerAdmin(req.body);
+const createAdmin = catchAsync(async (req, res) => {
+  const { admin, accessToken, refreshToken } = await authService.createAdmin(req.body);
 
   res.status(201)
     .cookie('refreshToken', refreshToken, options)
     .json({
       id: admin.id,
       email: admin.email,
+      role: admin.role,
       token: accessToken
     });
 });
@@ -60,19 +61,32 @@ const changePassword = catchAsync(async (req, res) => {
 
 const forgotPassword = catchAsync(async (req, res) => {
   const { email } = req.body;
-  const resetToken = await authService.forgotPassword(email);
+  const result = await authService.forgotPassword(email);
 
-  res.status(200).json({ 
-    message: 'Reset token generated in response for demo. In production, this should be sent via email.', 
-    resetToken 
-  });
+  res.status(200).json(result);
+});
+
+const verifyOtp = catchAsync(async (req, res) => {
+  const { email, otp } = req.body;
+  const result = await authService.verifyOtp(email, otp);
+
+  res.status(200).json(result);
+});
+
+const resetPassword = catchAsync(async (req, res) => {
+  const { email, newPassword } = req.body;
+  const result = await authService.resetPassword(email, newPassword);
+
+  res.status(200).json(result);
 });
 
 module.exports = {
-  register,
+  createAdmin,
   login,
   logout,
   refreshAccessToken,
   changePassword,
   forgotPassword,
+  verifyOtp,
+  resetPassword,
 };

@@ -19,9 +19,14 @@ const updateAdmin = async (id, data) => {
   });
 };
 
+const countAdmins = async () => {
+  return await prisma.admin.count();
+};
+
 module.exports = {
   findAdminByEmail,
   findAdminById,
   createAdmin,
   updateAdmin,
+  countAdmins,
 };

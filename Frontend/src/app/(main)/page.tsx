@@ -15,7 +15,6 @@ export default function HomePage() {
   return (
     <div className="flex flex-col gap-0 overflow-hidden">
       <HeroSection />
-      <DelhiHero />
       <FeaturedPackages />
       <ServicesSection />
       <DestinationsSection />
@@ -23,6 +22,7 @@ export default function HomePage() {
       <CarRentalSection />
       <HappyCustomersSection />
       <TestimonialsSection />
+      <DelhiHero />
       <CTASection />
     </div>
   );
