@@ -88,7 +88,7 @@ export default function ContactPage() {
                       {
                         icon: Mail,
                         title: "Official Email",
-                        detail: "info@bharatyatra.com",
+                        detail: "info@bharatyatratravels.com",
                         color: "bg-indigo-100 text-indigo-600"
                       },
                     ].map((c) => (

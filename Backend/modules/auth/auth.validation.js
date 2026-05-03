@@ -27,9 +27,25 @@ const forgotPasswordSchema = {
   }),
 };
 
+const verifyOtpSchema = {
+  body: z.object({
+    email: z.string().email('Invalid email format'),
+    otp: z.string().length(6, 'OTP must be exactly 6 digits'),
+  }),
+};
+
+const resetPasswordSchema = {
+  body: z.object({
+    email: z.string().email('Invalid email format'),
+    newPassword: z.string().min(6, 'New password must be at least 6 characters long'),
+  }),
+};
+
 module.exports = {
   registerSchema,
   loginSchema,
   changePasswordSchema,
   forgotPasswordSchema,
+  verifyOtpSchema,
+  resetPasswordSchema,
 };

@@ -81,7 +81,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center h-9">
           <div className="flex items-center gap-6 text-[11px] font-semibold text-slate-400 tracking-wide">
             <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-amber-400" /> Ghaziabad Uttar Pradesh, India</span>
-            <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-amber-400"/> <a href="mailto:bharatyatra@outlook.com">bharatyatra@outlook.com</a></span>
+            <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-amber-400"/> <a href="mailto:info@bharatyatratravels.com">info@bharatyatratravels.com</a></span>
           </div>
           <div className="flex items-center gap-2">
             <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-400"><Phone className="w-3.5 h-3.5 text-amber-400" /> <a href="tel:+919958847804">+91 9958847804</a></span>

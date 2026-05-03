@@ -10,9 +10,11 @@ const createEnquiry = async (enquiryData) => {
   const newEnquiry = await enquiryRepository.createEnquiry(enquiryData);
 
   // Send email to admin
-  if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.EMAIL_USER !== "your-gmail@gmail.com") {
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.EMAIL_HOST || 'smtp.hostinger.com',
+      port: parseInt(process.env.EMAIL_PORT) || 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -21,20 +23,26 @@ const createEnquiry = async (enquiryData) => {
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Sending to admin
-      subject: `New Enquiry from ${enquiryData.name}: ${enquiryData.subject || 'No Subject'}`,
-      text: `You have received a new enquiry.\n\nName: ${enquiryData.name}\nEmail: ${enquiryData.email}\nPhone: ${enquiryData.phone || 'N/A'}\nSubject: ${enquiryData.subject || 'N/A'}\n\nMessage:\n${enquiryData.message}`,
+      to: process.env.EMAIL_USER, // Sending to admin info@bharatyatratravels.com
+      subject: `New Travel Enquiry from ${enquiryData.name}`,
+      text: `You have received a new enquiry from your website:\n\n` +
+            `👤 Name: ${enquiryData.name}\n` +
+            `📧 Email: ${enquiryData.email}\n` +
+            `📞 Phone: ${enquiryData.phone || 'N/A'}\n` +
+            `📝 Subject: ${enquiryData.subject || 'N/A'}\n\n` +
+            `💬 Message:\n${enquiryData.message}\n\n` +
+            `--- End of Enquiry ---`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error('Error sending email:', error);
+        console.error('Error sending enquiry email:', error.message);
       } else {
-        console.log('Email sent:', info.response);
+        console.log('Enquiry email sent successfully:', info.response);
       }
     });
   } else {
-    console.warn('Email credentials not configured in .env');
+    console.warn('Enquiry email not sent: Email credentials not configured or using placeholders in .env');
   }
 
   return newEnquiry;
