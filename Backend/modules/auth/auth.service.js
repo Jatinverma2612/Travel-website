@@ -125,12 +125,15 @@ const forgotPassword = async (email) => {
     try {
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST || 'smtp.hostinger.com',
-        port: parseInt(process.env.EMAIL_PORT) || 465,
-        secure: true, // true for 465, false for other ports
+        port: 587,
+        secure: false, // Use STARTTLS
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
         },
+        tls: {
+          rejectUnauthorized: false
+        }
       });
 
       const mailOptions = {
