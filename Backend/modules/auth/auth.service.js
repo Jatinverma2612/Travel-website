@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const ApiError = require('../../utils/ApiError');
 const authRepository = require('./auth.repository');
-const nodemailer = require('nodemailer');
+const sendEmail = require('../../utils/sendEmail');
 
 const generateAccessAndRefreshTokens = async (adminId) => {
   const accessToken = jwt.sign({ id: adminId }, process.env.JWT_SECRET, {
@@ -121,39 +121,27 @@ const forgotPassword = async (email) => {
   await authRepository.updateAdmin(admin.id, { resetOtp: otp, otpExpiry });
 
   // Send OTP via email
-  if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.EMAIL_USER !== "your-gmail@gmail.com") {
-    try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST || 'smtp.hostinger.com',
-        port: 587,
-        secure: false, // Use STARTTLS
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-        tls: {
-          rejectUnauthorized: false
-        }
-      });
+  await sendEmail({
+    to: email,
+    subject: 'Your Password Reset OTP - Bharat Yatra Travels',
+    html: `
+      <div style="font-family: sans-serif; line-height: 1.6; color: #333; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+        <h2 style="color: #2563eb; text-align: center;">Reset Your Password</h2>
+        <p>Hello,</p>
+        <p>You requested a password reset for your Bharat Yatra Travels admin account. Use the OTP below to proceed. This OTP is valid for <strong>10 minutes</strong>.</p>
+        <div style="background: #f3f4f6; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #111; border-radius: 8px; margin: 20px 0;">
+          ${otp}
+        </div>
+        <p>If you did not request this, please ignore this email or contact support.</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+        <p style="font-size: 12px; color: #666; text-align: center;">
+          Bharat Yatra Travels Admin Team
+        </p>
+      </div>
+    `
+  });
 
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: admin.email,
-        subject: 'Password Reset OTP - Bharat Yaatra Travels',
-        text: `Your OTP for password reset is: ${otp}\n\nThis OTP is valid for 10 minutes.\nIf you did not request this, please ignore this email.`,
-      };
-
-      await transporter.sendMail(mailOptions);
-    } catch (error) {
-      console.warn('Failed to send email. Check your EMAIL settings in .env', error.message);
-    }
-  } else {
-    console.warn('\n=== EMAIL NOT CONFIGURED ===');
-    console.warn('Your OTP for password reset is:', otp);
-    console.warn('============================\n');
-  }
-
-  return { message: 'OTP generated. Check your email (or backend terminal if email is not setup).' };
+  return { message: 'OTP sent to email' };
 };
 
 const verifyOtp = async (email, otp) => {
