@@ -103,9 +103,7 @@ export function Navbar() {
 
             <div className="leading-none">
               <span className="font-extrabold text-[16px] sm:text-[18px] text-slate-900 tracking-tight block leading-none">
-                <Link  href="https://www.google.com/maps?q=Bharat+Yatra+Travels+Shalimar+Garden+Ghaziabad"
-                target="_blank"
-                >Bharat Yatra</Link>
+                Bharat Yatra
               </span>
               <span className="text-blue-600 text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase block mt-1">
                 Travels
