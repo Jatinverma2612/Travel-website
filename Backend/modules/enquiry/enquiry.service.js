@@ -1,5 +1,4 @@
-const ApiError = require('../../utils/ApiError');
-const nodemailer = require('nodemailer');
+const sendEmail = require('../../utils/sendEmail');
 const enquiryRepository = require('./enquiry.repository');
 
 const getEnquiries = async () => {
@@ -9,45 +8,42 @@ const getEnquiries = async () => {
 const createEnquiry = async (enquiryData) => {
   const newEnquiry = await enquiryRepository.createEnquiry(enquiryData);
 
-  // Send email to admin
-  if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.EMAIL_USER !== "your-gmail@gmail.com") {
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST || 'smtp.hostinger.com',
-      port: 587,
-      secure: false, // Use STARTTLS for port 587
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false // Helps avoid connection issues on some hosts
-      }
-    });
-
-    const mailOptions = {
-      from: `"Bharat Yatra Travels" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // Sending to admin
-      subject: `New Travel Enquiry from ${enquiryData.name}`,
-      text: `You have received a new enquiry from your website:\n\n` +
-            `👤 Name: ${enquiryData.name}\n` +
-            `📧 Email: ${enquiryData.email}\n` +
-            `📞 Phone: ${enquiryData.phone || 'N/A'}\n` +
-            `📝 Subject: ${enquiryData.subject || 'N/A'}\n\n` +
-            `💬 Message:\n${enquiryData.message}\n\n` +
-            `--- End of Enquiry ---`,
-    };
-
-    try {
-      console.log(`[DEBUG] Attempting to send enquiry email from ${process.env.EMAIL_USER}...`);
-      const info = await transporter.sendMail(mailOptions);
-      console.log('[DEBUG] Enquiry email sent successfully:', info.response);
-    } catch (error) {
-      console.error('[DEBUG] Error sending enquiry email:', error);
-      // We don't throw here to avoid failing the DB record creation, but we log the error
-    }
-  } else {
-    console.warn('[DEBUG] Enquiry email skipped: Credentials missing or using placeholders.');
-  }
+  // Send email to admin via Resend
+  await sendEmail({
+    to: process.env.EMAIL_USER || 'info@bharatyatratravels.com',
+    subject: `New Travel Enquiry from ${enquiryData.name}`,
+    html: `
+      <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
+        <h2 style="color: #2563eb;">New Travel Enquiry</h2>
+        <p>You have received a new enquiry from your website:</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>👤 Name:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">${enquiryData.name}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>📧 Email:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">${enquiryData.email}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>📞 Phone:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">${enquiryData.phone || 'N/A'}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>📝 Subject:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">${enquiryData.subject || 'N/A'}</td>
+          </tr>
+        </table>
+        <div style="margin-top: 20px; padding: 15px; background: #f9fafb; border-radius: 8px;">
+          <strong>💬 Message:</strong><br/>
+          ${enquiryData.message.replace(/\n/g, '<br/>')}
+        </div>
+        <p style="font-size: 12px; color: #666; margin-top: 30px;">
+          --- End of Enquiry ---
+        </p>
+      </div>
+    `
+  });
 
   return newEnquiry;
 };
