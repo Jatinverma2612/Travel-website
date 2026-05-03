@@ -13,12 +13,15 @@ const createEnquiry = async (enquiryData) => {
   if (process.env.EMAIL_USER && process.env.EMAIL_PASS && process.env.EMAIL_USER !== "your-gmail@gmail.com") {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST || 'smtp.hostinger.com',
-      port: parseInt(process.env.EMAIL_PORT) || 465,
-      secure: true,
+      port: 587,
+      secure: false, // Use STARTTLS for port 587
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      tls: {
+        rejectUnauthorized: false // Helps avoid connection issues on some hosts
+      }
     });
 
     const mailOptions = {
