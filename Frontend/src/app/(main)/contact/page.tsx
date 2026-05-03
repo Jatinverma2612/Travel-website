@@ -76,7 +76,7 @@ export default function ContactPage() {
                       {
                         icon: MapPin,
                         title: "Our Headquaters",
-                        detail: "123 Travel Avenue, Connaught Place, New Delhi — 110001",
+                        detail: "PLOT NO, B, FLAT, 3, NO. SF 89, Shalimar Garden Extension, II, Sahibabad, Ghaziabad, Uttar Pradesh 201005",
                         color: "bg-blue-100 text-blue-600"
                       },
                       {
