@@ -66,35 +66,6 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend is working' });
 });
 
-// Production SMTP Test Route
-app.get('/api/test-mail', async (req, res) => {
-  const nodemailer = require('nodemailer');
-  try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST || 'smtp.hostinger.com',
-      port: parseInt(process.env.EMAIL_PORT) || 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    await transporter.verify();
-    
-    await transporter.sendMail({
-      from: `"SMTP Test" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
-      subject: "Production SMTP Test",
-      text: "If you received this, production email is fixed!"
-    });
-
-    res.json({ success: true, message: 'Test email sent successfully' });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
 // Centralized Error handling middleware
 app.use(errorHandler);
 
