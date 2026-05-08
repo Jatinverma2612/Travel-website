@@ -87,5 +87,6 @@ model Review {
 model Gallery {
   id         Int      @id @default(autoincrement())
   image_url  String
+  public_id  String?
   created_at DateTime @default(now())
 }
