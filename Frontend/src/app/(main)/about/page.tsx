@@ -7,15 +7,13 @@ const teamMembers = [
   {
     name: "Arvind Verma",
     role: "Founder & CEO",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
+    image: "/arvind.jpg",
     bio: "20+ years in the travel industry with a passion for creating unforgettable journeys.",
   },
   {
     name: "Abhishek Verma",
     role: "Head of Operations",
-    image:
-      "https://images.unsplash.com/photo-1494790108755-2616b612b977?auto=format&fit=crop&q=80&w=400",
+    image: "/abhishek.jpg",
     bio: "Ensures every trip runs flawlessly from planning to execution with sharp attention to detail.",
   },
 ];

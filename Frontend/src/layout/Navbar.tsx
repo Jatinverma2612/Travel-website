@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { MapPin, Phone, Menu, X, ArrowRight, MessageCircle, ChevronDown, ChevronRight, Mail } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -106,21 +107,15 @@ export function Navbar() {
         <div className="flex h-[64px] sm:h-[70px] items-center justify-between gap-6">
 
           {/* ── Brand ── */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0 transition-transform duration-300 hover:scale-[1.02]">
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 shrink-0">
-              <div className="absolute inset-0 rounded-xl bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 shadow-lg shadow-blue-600/30" />
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/30 to-transparent" />
-              <MapPin className="absolute inset-0 m-auto h-4 w-4 sm:h-5 sm:w-5 text-white" />
-            </div>
-
-            <div className="leading-none">
-              <span className="font-extrabold text-[16px] sm:text-[18px] text-slate-900 tracking-tight block leading-none">
-                Bharat Yatra
-              </span>
-              <span className="text-blue-600 text-[9px] sm:text-[10px] font-bold tracking-[0.25em] uppercase block mt-1">
-                Travels
-              </span>
-            </div>
+          <Link href="/" className="flex items-center group shrink-0 transition-transform duration-300 hover:scale-[1.02]">
+            <Image
+              src="/logo.png"
+              alt="Bharat Yatra Travels Logo"
+              width={350}
+              height={120}
+              className="h-[100px] sm:h-[150px] w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* ── Desktop Nav ── */}

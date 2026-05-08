@@ -10,13 +10,32 @@ export const metadata = {
   description: "Experience the best of India with Bharat Yatra Travels. Luxury packages, corporate travel, and custom itineraries. Trusted by 10,000+ travellers.",
   keywords: ["travel india", "luxury tours india", "bharat yatra travels", "tour packages", "india tourism"],
   authors: [{ name: "Bharat Yatra Travels" }],
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/apple-icon.png",
+  },
   openGraph: {
     title: "Bharat Yatra Travels",
     description: "Premium Luxury Travel in India",
-    url: "https://bharatyatratravels.com",
+    url: "https://www.bharatyatravels.com",
     siteName: "Bharat Yatra Travels",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "https://www.bharatyatravels.com/logo.png",
+        width: 800,
+        height: 600,
+        alt: "Bharat Yatra Travels Logo",
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bharat Yatra Travels",
+    description: "Premium Luxury Travel in India",
+    images: ["https://www.bharatyatravels.com/logo.png"],
   },
 };
 
@@ -55,6 +74,7 @@ export default function RootLayout({
               "name": "Bharat Yatra Travels",
               "url": "https://www.bharatyatravels.com",
               "logo": "https://www.bharatyatravels.com/logo.png",
+              "image": "https://www.bharatyatravels.com/logo.png",
               "description": "Experience the best of India with Bharat Yatra Travels. Luxury packages, corporate travel, and custom itineraries.",
               "telephone": "+91 9958847804",
               "address": {
