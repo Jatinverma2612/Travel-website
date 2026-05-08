@@ -1,5 +1,6 @@
 const galleryService = require('./gallery.service');
 const catchAsync = require('../../utils/catchAsync');
+const cloudinary = require('../../config/cloudinary');
 
 const getAllGalleryImages = catchAsync(async (req, res) => {
   const images = await galleryService.getAllGalleryImages();
@@ -8,13 +9,24 @@ const getAllGalleryImages = catchAsync(async (req, res) => {
 
 const addGalleryImage = catchAsync(async (req, res) => {
   let image_url = req.body.image_url;
+  let public_id = null;
 
   if (req.file) {
-    const baseUrl = req.protocol + '://' + req.get('host');
-    image_url = `${baseUrl}/uploads/${req.file.filename}`;
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: 'gallery' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+      stream.end(req.file.buffer);
+    });
+    image_url = result.secure_url;
+    public_id = result.public_id;
   }
 
-  const newImage = await galleryService.addGalleryImage(image_url);
+  const newImage = await galleryService.addGalleryImage(image_url, public_id);
   res.status(201).json(newImage);
 });
 

@@ -6,6 +6,12 @@ const findAllGalleryImages = async () => {
   });
 };
 
+const findGalleryImageById = async (id) => {
+  return await prisma.gallery.findUnique({
+    where: { id }
+  });
+};
+
 const createGalleryImage = async (data) => {
   return await prisma.gallery.create({ data });
 };
@@ -18,6 +24,7 @@ const deleteGalleryImage = async (id) => {
 
 module.exports = {
   findAllGalleryImages,
+  findGalleryImageById,
   createGalleryImage,
   deleteGalleryImage,
 };
