@@ -118,6 +118,7 @@ export default function AboutPage() {
                 <img
                   src="https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&q=80&w=800"
                   alt="Travel Story"
+                  loading="lazy"
                   className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-700"
                 />
               </div>
@@ -283,6 +284,7 @@ export default function AboutPage() {
                   <img
                     src={m.image}
                     alt={m.name}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

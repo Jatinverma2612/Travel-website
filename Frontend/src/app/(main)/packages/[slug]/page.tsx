@@ -7,6 +7,31 @@ import { categoryService } from "@/services/category.service";
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  let category: any = null;
+  try {
+    category = await categoryService.getBySlug(slug);
+  } catch (error) {
+    console.error("Failed to fetch category for metadata:", error);
+  }
+
+  if (!category) {
+    return {
+      title: "Category Not Found",
+    };
+  }
+
+  return {
+    title: `${category.name} Packages`,
+    description: category.description || `Explore our hand-picked ${category.name} packages. Luxury journeys, adventure trips, and cultural experiences.`,
+    keywords: [category.name, "tour packages", "india tours"],
+    alternates: {
+      canonical: `https://www.bharatyatravels.com/packages/${slug}`,
+    },
+  };
+}
+
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   

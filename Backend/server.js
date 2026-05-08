@@ -14,7 +14,6 @@ const enquiryRoutes = require('./modules/enquiry/enquiry.routes');
 const reviewRoutes = require('./modules/review/review.routes');
 const galleryRoutes = require('./modules/gallery/gallery.routes');
 const categoryRoutes = require('./modules/category/category.routes');
-
 const errorHandler = require('./middleware/error.middleware');
 
 const app = express();
