@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "kill": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :5000') do taskkill /PID %a /F",
+    "dev": "npx kill-port 5000 && nodemon server.js"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",

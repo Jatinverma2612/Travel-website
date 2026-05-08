@@ -1,3 +1,7 @@
+
+
+
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -232,13 +236,20 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.15, duration: 0.5 }}
                 className="bg-white rounded-3xl p-10 shadow-sm border border-slate-100 text-center hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300"
               >
-                <div className={`w-16 h-16 ${v.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-black/10`}>
-                  <v.icon className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="font-extrabold text-gray-900 text-xl mb-4">
-                  {v.title}
-                </h3>
-                <p className="text-gray-500 text-[14px] leading-relaxed">{v.desc}</p>
+                {(() => {
+                  const IconComponent = v.icon;
+                  return (
+                    <>
+                      <div className={`w-16 h-16 ${v.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-black/10`}>
+                        <IconComponent className="h-8 w-8 text-white" />
+                      </div>
+                      <h3 className="font-extrabold text-gray-900 text-xl mb-4">
+                        {v.title}
+                      </h3>
+                      <p className="text-gray-500 text-[14px] leading-relaxed">{v.desc}</p>
+                    </>
+                  );
+                })()}
               </motion.div>
             ))}
           </div>

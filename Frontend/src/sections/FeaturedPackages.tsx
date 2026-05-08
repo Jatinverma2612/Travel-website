@@ -22,7 +22,9 @@ export function FeaturedPackages() {
   useEffect(() => {
     axiosInstance.get(`/packages`)
       .then((res) => {
-        const featured = Array.isArray(res.data) ? res.data.slice(0, 4) : [];
+        // Backend returns { success: true, data: [...] }
+        const data = res.data?.data || res.data;
+        const featured = Array.isArray(data) ? data.slice(0, 4) : [];
         setPackages(featured);
         setLoading(false);
       })
@@ -122,8 +124,8 @@ export function FeaturedPackages() {
                     </div>
                   </div>
                   <Link
-                    href={`/packages/${pkg.id}`}
-                    className="btn-primary inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl group/btn"
+                    href={`/package/${pkg.id}`}
+                    className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all duration-300 active:scale-95 group/btn"
                   >
                     View Details
                     <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
@@ -144,9 +146,9 @@ export function FeaturedPackages() {
         >
           <Link
             href="/packages"
-            className="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-600 font-semibold text-sm px-7 py-3 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+            className="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-blue-600 text-slate-700 hover:text-blue-600 font-bold text-sm px-7 py-3.5 rounded-xl shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
           >
-            <MapPin className="h-4 w-4 text-blue-500" />
+            <MapPin className="h-4 w-4 text-blue-500 transition-transform group-hover:scale-110" />
             Browse All Destinations
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>

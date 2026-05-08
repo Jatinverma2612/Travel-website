@@ -1,5 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -13,7 +14,6 @@ export default function NotFound() {
         href="/"
         className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md hover:shadow-xl"
       >
-        <ArrowLeft className="w-5 h-5" />
         Back to Home
       </Link>
     </div>

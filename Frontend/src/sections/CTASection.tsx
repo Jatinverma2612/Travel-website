@@ -48,17 +48,17 @@ export function CTASection() {
             <Link
               href="/booking"
               id="cta-book-btn"
-              className="btn-primary glow-gold inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base group"
+              className="btn-primary inline-flex items-center justify-center gap-2 bg-amber-400 text-amber-950 hover:bg-blue-600 hover:text-white font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base transition-all duration-300 hover:shadow-2xl hover:shadow-blue-600/20 active:scale-95 group"
             >
               Book a Package
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
             <a
-              href="https://wa.me/9958847804"
+              href="https://wa.me/919958847804"
               target="_blank"
               rel="noopener noreferrer"
               id="cta-whatsapp-btn"
-              className="btn-primary inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-400 text-white font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base"
+              className="btn-primary inline-flex items-center justify-center gap-2 bg-green-600 text-white hover:bg-blue-600 font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base transition-all duration-300 hover:shadow-2xl hover:shadow-blue-600/20 active:scale-95"
             >
               <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
               WhatsApp Us
@@ -66,7 +66,7 @@ export function CTASection() {
             <Link
               href="/contact"
               id="cta-contact-btn"
-              className="btn-ghost inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base border border-white/20 backdrop-blur-sm"
+              className="btn-ghost inline-flex items-center justify-center gap-2 bg-white/10 text-white hover:bg-blue-600 font-semibold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base border border-white/20 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-blue-600/20 active:scale-95"
             >
               <Phone className="h-4 w-4" />
               Call Now

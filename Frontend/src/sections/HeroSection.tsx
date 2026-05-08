@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { ArrowRight, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,12 +14,48 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 
 const slides = [
-  "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1920&q=80", // Taj Mahal
-  "https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Jaipur / Hawa Mahal
-  "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Kerala / Backwaters
-  "https://i.pinimg.com/736x/09/60/43/0960431bb2c967035f858ced179f7ca6.jpg", // Varanasi / Culture
-  "https://i.pinimg.com/1200x/3f/31/b8/3f31b8cc765742934869be454cfda12c.jpg", // Ladakh / Mountains
-  "https://plus.unsplash.com/premium_photo-1697729690458-2d64ca777c04?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" //manali
+  {
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1920&q=80",
+    title: "Explore India",
+    highlight: "Like Never Before",
+    description: "Premium, professionally curated travel experiences across India. From the misty valleys of Kashmir to the sun-kissed beaches of Goa — we handle everything so you can simply travel.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Discover Royal",
+    highlight: "Heritage & Palaces",
+    description: "Step into the era of kings and queens. Experience magnificent forts, vibrant culture, and unparalleled luxury in the land of royals.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Unwind in the",
+    highlight: "Serene Backwaters",
+    description: "Sail through the tranquil backwaters in traditional houseboats. A perfect getaway for peace, nature, and rejuvenation.",
+  },
+  {
+    image: "https://i.pinimg.com/736x/09/60/43/0960431bb2c967035f858ced179f7ca6.jpg",
+    title: "Experience the",
+    highlight: "Spiritual Essence",
+    description: "Witness the divine Ganga Aarti and immerse yourself in the rich spiritual heritage of the oldest living city in the world.",
+  },
+  {
+    image: "https://i.pinimg.com/1200x/3f/31/b8/3f31b8cc765742934869be454cfda12c.jpg",
+    title: "Adventure in the",
+    highlight: "Majestic Himalayas",
+    description: "Embark on an unforgettable journey through the rugged terrains, crystal-clear lakes, and breathtaking mountainous landscapes.",
+  },
+  {
+    image: "https://plus.unsplash.com/premium_photo-1697729690458-2d64ca777c04?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Escape to the",
+    highlight: "Snowy Peaks",
+    description: "Find your perfect winter wonderland. Enjoy thrilling adventures, cozy stays, and panoramic views of the snow-capped mountains.",
+  },
+  {
+    image: "https://plus.unsplash.com/premium_photo-1769868012862-bc90889c9583?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "Relax on the",
+    highlight: "Pristine Beaches",
+    description: "Soak in the sun, walk along golden sands, and dive into crystal-clear waters. The ultimate tropical coastal getaway awaits you.",
+  }
 ];
 
 export function HeroSection() {
@@ -37,7 +73,7 @@ export function HeroSection() {
           modules={[Autoplay, EffectFade]}
           effect="fade"
           fadeEffect={{ crossFade: true }}
-          speed={800}
+          speed={1200}
           loop={true}
           autoplay={{
             delay: 3000,
@@ -48,12 +84,12 @@ export function HeroSection() {
           onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex)}
           className="w-full h-full"
         >
-          {slides.map((src, index) => (
+          {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-                className="w-full h-full"
+                className="w-full h-full brightness-[1.05] contrast-[1.05]"
                 style={{
-                  backgroundImage: `url('${src}')`,
+                  backgroundImage: `url('${slide.image}')`,
                   backgroundSize: "cover",
                   backgroundPosition: "center 30%",
                 }}
@@ -63,9 +99,9 @@ export function HeroSection() {
         </Swiper>
       </div>
 
-      {/* Multi-layer overlay for depth and readability */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-blue-950/95 via-blue-950/70 to-blue-900/30 pointer-events-none" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-blue-950/50 via-transparent to-transparent pointer-events-none" />
+      {/* Clean overlay for maximum image clarity and text readability */}
+      <div className="absolute inset-0 z-0 bg-black/20 pointer-events-none opacity-90" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none opacity-90" />
 
       {/* Navigation Arrows */}
       <div className="absolute inset-y-0 left-4 sm:left-8 z-20 flex items-center hidden sm:flex">
@@ -104,26 +140,26 @@ export function HeroSection() {
 
           {/* Headline */}
           <motion.h1
+            key={`title-${currentSlide}`}
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-4xl sm:text-5xl md:text-[4.5rem] font-extrabold text-white leading-[1.1] tracking-tight mb-5 sm:mb-6 drop-shadow-2xl"
           >
-            Explore India
+            {slides[currentSlide]?.title}
             <br />
-            <span className="text-amber-400">Like Never Before</span>
+            <span className="text-amber-400">{slides[currentSlide]?.highlight}</span>
           </motion.h1>
 
           {/* Sub text */}
           <motion.p
+            key={`desc-${currentSlide}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.7 }}
+            transition={{ duration: 0.7 }}
             className="text-base sm:text-lg text-blue-50/90 mb-8 sm:mb-10 leading-[1.8] max-w-lg drop-shadow-md font-medium"
           >
-            Premium, professionally curated travel experiences across India.
-            From the misty valleys of Kashmir to the sun-kissed beaches of Goa
-            — we handle everything so you can simply travel.
+            {slides[currentSlide]?.description}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -136,7 +172,7 @@ export function HeroSection() {
             <Link
               href="/packages"
               id="hero-explore-btn"
-              className="inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base transition-all duration-300 hover:shadow-2xl hover:shadow-amber-400/50 hover:scale-[1.02] active:scale-[0.98] group"
+              className="inline-flex items-center justify-center gap-2 bg-amber-400 text-amber-950 hover:bg-blue-600 hover:text-white font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base transition-all duration-300 hover:shadow-2xl hover:shadow-amber-400/30 hover:scale-[1.02] active:scale-[0.98] group"
             >
               Explore Packages
               <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
@@ -144,7 +180,7 @@ export function HeroSection() {
             <Link
               href="/contact"
               id="hero-contact-btn"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base border border-white/25 transition-all duration-300 backdrop-blur-md hover:border-white/40 shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white hover:text-black text-white font-semibold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base border border-white/25 backdrop-blur-md shadow-xl hover:scale-[1.02] active:scale-[0.98]"
             >
               Talk to an Expert
             </Link>

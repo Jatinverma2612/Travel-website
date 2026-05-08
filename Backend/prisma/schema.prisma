@@ -25,8 +25,32 @@ model Package {
   duration    String
   description String
   image_url   String?
-  created_at  DateTime  @default(now())
+  groupSize   String?
+  transport   String?
+  tourType    String?
+  location    String?
+  tagline     String?
+  rating      Float?    @default(5.0)
+  timeline    Json?
+  inclusions  Json?
+  exclusions  Json?
+  categoryId  Int?
+  category    TourCategory? @relation(fields: [categoryId], references: [id])
+  created_at  DateTime      @default(now())
   bookings    Booking[]
+}
+
+model TourCategory {
+  id             Int       @id @default(autoincrement())
+  name           String
+  slug           String    @unique
+  type           String    // domestic or international
+  description    String?
+  bannerImage    String?
+  highlights     Json?
+  keyHighlights  Json?
+  packages       Package[]
+  createdAt      DateTime  @default(now())
 }
 
 model Booking {

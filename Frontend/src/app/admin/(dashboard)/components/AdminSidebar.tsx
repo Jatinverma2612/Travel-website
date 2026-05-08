@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/useAuth";
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, group: "main" },
   { href: "/admin/packages", label: "Manage Packages", icon: Package, group: "main" },
+  { href: "/admin/categories", label: "Tour Categories", icon: MapPin, group: "main" },
   { href: "/admin/packages/add", label: "Create Package", icon: PlusCircle, group: "main" },
   { href: "/admin/bookings", label: "Trip Bookings", icon: BookOpen, group: "main" },
   { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare, group: "main" },

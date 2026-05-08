@@ -13,6 +13,7 @@ const bookingRoutes = require('./modules/booking/booking.routes');
 const enquiryRoutes = require('./modules/enquiry/enquiry.routes');
 const reviewRoutes = require('./modules/review/review.routes');
 const galleryRoutes = require('./modules/gallery/gallery.routes');
+const categoryRoutes = require('./modules/category/category.routes');
 
 const errorHandler = require('./middleware/error.middleware');
 
@@ -20,7 +21,16 @@ const app = express();
 
 // Security Middleware
 app.use(helmet({
-  crossOriginResourcePolicy: false, // Allows images to be loaded cross-origin
+  crossOriginResourcePolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:", "*"],
+      connectSrc: ["'self'", "*"],
+    },
+  },
 }));
 
 // Rate limiting
@@ -55,6 +65,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/gallery', galleryRoutes);
+app.use('/api/categories', categoryRoutes);
 
 // Root Endpoint
 app.get('/', (req, res) => {
@@ -74,3 +85,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+// Trigger nodemon

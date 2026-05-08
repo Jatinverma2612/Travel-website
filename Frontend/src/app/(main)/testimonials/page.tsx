@@ -1,5 +1,6 @@
 "use client";
 
+
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Star, Quote, Award, Users, ThumbsUp, Medal, Send, X } from "lucide-react";
@@ -164,7 +165,7 @@ export default function TestimonialsPage() {
                       {t.name}
                     </p>
                     <p className="text-[11px] text-blue-600/60 font-bold uppercase tracking-wider leading-none">
-                      {t.created_at ? new Date(t.created_at).toLocaleDateString() : t.role}
+                      {t.created_at ? new Date(t.created_at).toDateString() : t.role}
                     </p>
                   </div>
                 </div>

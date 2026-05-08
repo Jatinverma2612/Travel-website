@@ -22,7 +22,9 @@ export function HappyCustomersSection() {
     const fetchImages = async () => {
       try {
         const res = await axiosInstance.get(`/gallery`);
-        setImages(res.data);
+        // Backend returns array of images directly or wrapped in data
+        const data = res.data?.data || res.data;
+        setImages(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error(err);
         setError(true);
@@ -32,8 +34,6 @@ export function HappyCustomersSection() {
     };
     fetchImages();
   }, []);
-
-
 
   return (
     <section className="py-20 sm:py-32 bg-slate-50 overflow-hidden" id="happy-customers">
@@ -101,6 +101,9 @@ export function HappyCustomersSection() {
                       src={img.image_url}
                       alt={`Happy Customer ${i + 1}`}
                       className="w-full h-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.05]"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=800";
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-blue-950/60 via-blue-950/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex flex-col justify-end p-6">
                       <motion.div 

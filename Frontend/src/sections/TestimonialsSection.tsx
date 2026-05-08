@@ -121,7 +121,7 @@ export function TestimonialsSection() {
                     <div>
                       <p className="font-bold text-gray-900 text-sm leading-tight">{t.name}</p>
                       <p className="text-xs text-gray-400 mt-0.5">
-                        {t.role || (t.created_at ? new Date(t.created_at).toLocaleDateString() : "Verified Traveller")}
+                        {t.role || (t.created_at ? new Date(t.created_at).toDateString() : "Verified Traveller")}
                       </p>
                     </div>
                   </div>

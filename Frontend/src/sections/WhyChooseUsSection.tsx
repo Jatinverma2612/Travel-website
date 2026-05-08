@@ -40,7 +40,7 @@ export function WhyChooseUsSection() {
           <motion.div
             initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="order-2 lg:order-1"
           >
@@ -103,7 +103,7 @@ export function WhyChooseUsSection() {
           <motion.div
             initial={{ opacity: 0, x: 32 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="order-1 lg:order-2 relative"
           >

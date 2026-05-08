@@ -3,8 +3,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authService } from "@/services/auth.service";
 import toast from "react-hot-toast";
+import ClientProviders from "@/components/ClientProviders";
 
-export default function ForgotPasswordPage() {
+export const dynamic = 'force-dynamic';
+
+function ForgotPasswordContent() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
@@ -129,8 +132,15 @@ export default function ForgotPasswordPage() {
             </button>
           </form>
         )}
-
       </div>
     </div>
+  );
+}
+
+export default function ForgotPasswordPage() {
+  return (
+    <ClientProviders>
+      <ForgotPasswordContent />
+    </ClientProviders>
   );
 }
