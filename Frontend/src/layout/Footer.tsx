@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from "next/image";
 import { MapPin, Phone, Mail, ArrowRight, MessageCircle } from "lucide-react";
 
 const quickLinks = [
@@ -32,19 +32,15 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-4 lg:pr-8 flex flex-col items-start text-left">
             <Link
               href="/"
-              className="inline-flex items-center gap-3 mb-6 group transition-transform hover:scale-[1.02]"
+              className="inline-flex items-center mb-6 group transition-transform hover:scale-[1.02]"
             >
-              <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-blue-600/20 group-hover:border-blue-500/40 transition-all duration-300">
-                <MapPin className="h-5 w-5 text-blue-500" />
-              </div>
-              <div>
-                <p className="font-extrabold text-white text-xl tracking-tight leading-none">
-                  Bharat Yatra
-                </p>
-                <p className="text-blue-500 text-[11px] font-bold tracking-widest uppercase mt-1.5">
-                  Travels
-                </p>
-              </div>
+              <Image
+                src="/logo.png"
+                alt="Bharat Yatra Travels Logo"
+                width={350}
+                height={120}
+                className="h-[150px] w-auto object-contain"
+              />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm mb-8 font-medium">
               India&apos;s trusted travel partner since 2009. Curating premium
