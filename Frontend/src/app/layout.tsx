@@ -1,6 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
+  applicationName: "Bharat Yatra Travels",
+  metadataBase: new URL("https://www.bharatyatravels.com"),
   title: {
     default: "Bharat Yatra Travels | Premium Luxury Travel in India",
     template: "%s | Bharat Yatra Travels",
@@ -32,6 +34,18 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }} className="antialiased bg-slate-50 text-slate-900 min-h-screen">
         {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Bharat Yatra Travels",
+              "alternateName": "Bharat Yatra",
+              "url": "https://www.bharatyatravels.com"
+            })
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
