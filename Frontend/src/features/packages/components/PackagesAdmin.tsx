@@ -135,7 +135,7 @@ export const PackagesAdmin = () => {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-0.5 font-bold text-blue-700">
                       <IndianRupee className="h-3.5 w-3.5" />
-                      {pkg.price.toLocaleString()}
+                      {Number(pkg.price ?? 0).toLocaleString("en-IN")}
                     </div>
                   </td>
                   <td className="px-6 py-4 text-right">
@@ -191,7 +191,7 @@ export const PackagesAdmin = () => {
                     </div>
                     <div className="flex items-center gap-0.5 text-blue-700 font-bold text-xs">
                       <IndianRupee className="h-3 w-3" />
-                      {pkg.price.toLocaleString()}
+                      {Number(pkg.price ?? 0).toLocaleString("en-IN")}
                     </div>
                   </div>
                 </div>

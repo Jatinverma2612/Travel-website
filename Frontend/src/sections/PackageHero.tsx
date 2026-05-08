@@ -17,7 +17,7 @@ export default function PackageHero({ title, description, image, badge = "Tour P
         initial={{ scale: 1.1 }}
         animate={{ scale: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 brightness-[1.05] contrast-[1.05]"
         style={{ 
           backgroundImage: `url('${image}')`, 
           backgroundSize: "cover", 
@@ -25,10 +25,9 @@ export default function PackageHero({ title, description, image, badge = "Tour P
         }}
       />
       
-      {/* Overlays */}
-      <div className="absolute inset-0 z-1 bg-slate-900/40" />
-      <div className="absolute inset-0 z-1 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-      <div className="absolute inset-0 z-1 bg-gradient-to-r from-slate-950/60 via-transparent to-transparent" />
+      {/* Overlays - reduced for clarity */}
+      <div className="absolute inset-0 z-1 bg-black/20" />
+      <div className="absolute inset-0 z-1 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16">
         <motion.div

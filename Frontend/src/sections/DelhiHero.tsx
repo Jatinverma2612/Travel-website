@@ -8,11 +8,11 @@ import Link from "next/link";
 /* ---------- FLOATING ELEMENTS ---------- */
 
 const floatingElements = [
-  { icon: <Plane className="w-8 h-8 sm:w-10 sm:h-10" />, x: "5%", y: "80%", duration: 18 },
-  { icon: <Camera className="w-7 h-7 sm:w-9 sm:h-9" />, x: "85%", y: "20%", duration: 10 },
-  { icon: <MapPin className="w-6 h-6 sm:w-8 sm:h-8" />, x: "10%", y: "30%", duration: 12 },
-  { icon: <Compass className="w-5 h-5 sm:w-7 sm:h-7" />, x: "70%", y: "70%", duration: 14 },
-  { icon: <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />, x: "50%", y: "10%", duration: 8 },
+  { Icon: Plane, x: "5%", y: "80%", duration: 18, size: "w-8 h-8 sm:w-10 sm:h-10" },
+  { Icon: Camera, x: "85%", y: "20%", duration: 10, size: "w-7 h-7 sm:w-9 sm:h-9" },
+  { Icon: MapPin, x: "10%", y: "30%", duration: 12, size: "w-6 h-6 sm:w-8 sm:h-8" },
+  { Icon: Compass, x: "70%", y: "70%", duration: 14, size: "w-5 h-5 sm:w-7 sm:h-7" },
+  { Icon: Sparkles, x: "50%", y: "10%", duration: 8, size: "w-5 h-5 sm:w-6 sm:h-6" },
 ];
 
 /* ---------- COMPONENT ---------- */
@@ -42,25 +42,28 @@ export default function DelhiHero() {
         </motion.div>
 
         {/* Other floating icons */}
-        {floatingElements.map((el, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-yellow-400/30"
-            style={{ left: el.x, top: el.y }}
-            animate={{
-              y: [0, -15, 0],
-              scale: [1, 1.05, 1],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: el.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            {el.icon}
-          </motion.div>
-        ))}
+        {floatingElements.map((el, i) => {
+          const Icon = el.Icon;
+          return (
+            <motion.div
+              key={i}
+              className="absolute text-yellow-400/30"
+              style={{ left: el.x, top: el.y }}
+              animate={{
+                y: [0, -15, 0],
+                scale: [1, 1.05, 1],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: el.duration,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <Icon className={el.size} />
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* ---------- CONTENT ---------- */}

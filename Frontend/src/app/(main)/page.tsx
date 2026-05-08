@@ -1,4 +1,6 @@
-"use client";
+
+
+
 
 import { HeroSection } from "@/sections/HeroSection";
 import { FeaturedPackages } from "@/sections/FeaturedPackages";

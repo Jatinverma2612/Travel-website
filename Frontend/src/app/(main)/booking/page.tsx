@@ -1,5 +1,6 @@
 "use client";
 
+
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -27,7 +28,8 @@ function BookingForm() {
     const fetchPackages = async () => {
       try {
         const res = await axiosInstance.get(`/packages`);
-        setPackages(res.data);
+        const data = res.data?.data || res.data;
+        setPackages(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Failed to load packages");
       }

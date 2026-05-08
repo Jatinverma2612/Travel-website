@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { MapPin, Phone, Menu, X, ArrowRight, MessageCircle, ChevronDown, ChevronRight, Mail } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { categoryService } from "@/services/category.service";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -16,27 +17,8 @@ const navLinks = [
   { href: "/blog", label: "Blog" },
 ];
 
-const packagesDropdown = [
-  {
-    label: "Domestic Tours",
-    href: "/packages?type=domestic",
-    sub: [
-      { label: "North India", href: "/packages/north-india" },
-      { label: "South India", href: "/packages/south-india" },
-      { label: "Rajasthan", href: "/packages/rajasthan" },
-      { label: "Golden Triangle", href: "/packages/golden-triangle" },
-    ]
-  },
-  {
-    label: "International Tours",
-    href: "/packages?type=international",
-    sub: [
-      { label: "Bali", href: "/packages/bali" },
-      { label: "Dubai", href: "/packages/dubai" },
-      { label: "Thailand", href: "/packages/thailand" },
-    ]
-  }
-];
+// Remove hardcoded packagesDropdown
+// const packagesDropdown = [...];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -44,18 +26,48 @@ export function Navbar() {
   const [isPkgOpen, setIsPkgOpen] = useState(false);
   const [mobilePackagesOpen, setMobilePackagesOpen] = useState(false);
   const [mobileLevel2Open, setMobileLevel2Open] = useState<string | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const fetch = async () => {
+      try {
+        const data = await categoryService.getAll();
+        setCategories(data);
+      } catch (err) {
+        console.error("Navbar fetch error", err);
+      }
+    };
+    fetch();
+  }, []);
+
+  const domesticCategories = categories.filter(c => c.type === 'domestic');
+  const internationalCategories = categories.filter(c => c.type === 'international');
+
+  const dynamicDropdown = [
+    {
+      label: "Domestic Tours",
+      href: "/packages?type=domestic",
+      sub: domesticCategories.map(c => ({ label: c.name, href: `/packages/${c.slug}` }))
+    },
+    {
+      label: "International Tours",
+      href: "/packages?type=international",
+      sub: internationalCategories.map(c => ({ label: c.name, href: `/packages/${c.slug}` }))
+    }
+  ].filter(d => d.sub.length > 0);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (open) setOpen(false);
+    setOpen(false);
     setMobilePackagesOpen(false);
     setMobileLevel2Open(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   useEffect(() => {
@@ -65,10 +77,10 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-lg shadow-blue-900/5 border-b border-slate-200/50"
-          : "bg-white/70 backdrop-blur-[2px] border-b border-white/30"
+          ? "bg-white shadow-lg border-b border-slate-200"
+          : "bg-white/60 backdrop-blur-md border-b border-white/30"
       }`}
     >
       {/* ── Top Info Bar ── */}
@@ -149,7 +161,7 @@ export function Navbar() {
                           <div className="w-[500px] bg-white/95 backdrop-blur-2xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-200/50 p-6 grid grid-cols-2 gap-8 relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none" />
                             
-                            {packagesDropdown.map((d1) => (
+                            {dynamicDropdown.map((d1) => (
                               <div key={d1.label} className="relative z-10">
                                 <Link 
                                   href={d1.href} 
@@ -174,6 +186,11 @@ export function Navbar() {
                                 </div>
                               </div>
                             ))}
+                            {dynamicDropdown.length === 0 && (
+                              <div className="col-span-2 text-center py-4 text-slate-400 text-sm italic">
+                                No categories added yet.
+                              </div>
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -268,7 +285,7 @@ export function Navbar() {
                       {mobilePackagesOpen && (
                         <div className="overflow-hidden bg-slate-50/50 rounded-b-xl">
                           <div className="px-3 pt-2 pb-3 space-y-1.5 mt-1 border-t border-slate-100">
-                            {packagesDropdown.map(d1 => (
+                            {dynamicDropdown.map(d1 => (
                               <div key={d1.label} className="rounded-lg overflow-hidden border border-slate-100 bg-white shadow-sm">
                                  <button
                                    onClick={() => setMobileLevel2Open(mobileLevel2Open === d1.label ? null : d1.label)}
