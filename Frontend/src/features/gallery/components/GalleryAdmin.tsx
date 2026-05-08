@@ -183,7 +183,7 @@ export const GalleryAdmin = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               key={img.id}
-              className="group relative aspect-square bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl transition-all duration-500"
+              className="group relative aspect-[4/5] bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl transition-all duration-500"
             >
               <img
                 src={img.image_url}
@@ -239,7 +239,8 @@ export const GalleryAdmin = () => {
                   image={selectedImage}
                   crop={crop}
                   zoom={zoom}
-                  aspect={1}
+                  aspect={4/5}
+                  objectFit="contain"
                   onCropChange={setCrop}
                   onCropComplete={onCropComplete}
                   onZoomChange={setZoom}

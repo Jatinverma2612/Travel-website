@@ -95,7 +95,7 @@ export function HappyCustomersSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-30px" }}
                     transition={{ duration: 0.5, delay: (i % 6) * 0.08, ease: "easeOut" }}
-                    className="group relative overflow-hidden rounded-[2rem] cursor-pointer bg-slate-200 shadow-sm hover:shadow-2xl hover:shadow-blue-900/20 transition-all duration-500 aspect-[4/5] sm:aspect-square flex"
+                    className="group relative overflow-hidden rounded-[2rem] cursor-pointer bg-slate-200 shadow-sm hover:shadow-2xl hover:shadow-blue-900/20 transition-all duration-500 aspect-[4/5] flex"
                   >
                     <img
                       src={img.image_url}
