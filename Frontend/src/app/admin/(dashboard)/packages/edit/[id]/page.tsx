@@ -245,8 +245,14 @@ export default function EditPackagePage({
                   <input type="text" value={form.transport} onChange={(e) => update("transport", e.target.value)} className={inputCls} placeholder="e.g. Private AC SUV" />
                 </div>
                 <div>
-                  <label className={labelCls}>Tour Type</label>
-                  <input type="text" value={form.tourType} onChange={(e) => update("tourType", e.target.value)} className={inputCls} placeholder="e.g. Luxury / Budget" />
+                  <label className={labelCls}>Tour Package Type (Tier)</label>
+                  <select value={form.tourType} onChange={(e) => update("tourType", e.target.value)} className={inputCls}>
+                    <option value="">Select a Tier</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Premium">Premium</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Luxury">Luxury</option>
+                  </select>
                 </div>
                 <div>
                   <label className={labelCls}>Location Info</label>

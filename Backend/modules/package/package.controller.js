@@ -55,17 +55,17 @@ const createPackage = async (req, res) => {
   try {
     console.log('[API] POST /packages - Starting DB query');
     const data = { ...req.body };
-    if (data.price) data.price = parseFloat(data.price);
-    if (data.rating) data.rating = parseFloat(data.rating);
-    if (data.categoryId) data.categoryId = parseInt(data.categoryId);
+    if (data.price) data.price = parseFloat(data.price) || 0;
+    if (data.rating) data.rating = parseFloat(data.rating) || 5.0;
+    if (data.categoryId) data.categoryId = parseInt(data.categoryId) || null;
     if (data.timeline && typeof data.timeline === 'string') {
-      try { data.timeline = JSON.parse(data.timeline); } catch (e) { console.error('timeline parse error', e); }
+      try { data.timeline = JSON.parse(data.timeline); } catch (e) { data.timeline = []; }
     }
     if (data.inclusions && typeof data.inclusions === 'string') {
-      try { data.inclusions = JSON.parse(data.inclusions); } catch (e) { console.error('inclusions parse error', e); }
+      try { data.inclusions = JSON.parse(data.inclusions); } catch (e) { data.inclusions = []; }
     }
     if (data.exclusions && typeof data.exclusions === 'string') {
-      try { data.exclusions = JSON.parse(data.exclusions); } catch (e) { console.error('exclusions parse error', e); }
+      try { data.exclusions = JSON.parse(data.exclusions); } catch (e) { data.exclusions = []; }
     }
     if (req.file) {
       const baseUrl = `${req.protocol}://${req.get('host')}`;
@@ -91,17 +91,17 @@ const updatePackage = async (req, res) => {
   try {
     console.log(`[API] PUT /packages/${req.params.id} - Starting DB query`);
     const data = { ...req.body };
-    if (data.price) data.price = parseFloat(data.price);
-    if (data.rating) data.rating = parseFloat(data.rating);
-    if (data.categoryId) data.categoryId = parseInt(data.categoryId);
+    if (data.price) data.price = parseFloat(data.price) || 0;
+    if (data.rating) data.rating = parseFloat(data.rating) || 5.0;
+    if (data.categoryId) data.categoryId = parseInt(data.categoryId) || null;
     if (data.timeline && typeof data.timeline === 'string') {
-      try { data.timeline = JSON.parse(data.timeline); } catch (e) { console.error('timeline parse error', e); }
+      try { data.timeline = JSON.parse(data.timeline); } catch (e) { data.timeline = []; }
     }
     if (data.inclusions && typeof data.inclusions === 'string') {
-      try { data.inclusions = JSON.parse(data.inclusions); } catch (e) { console.error('inclusions parse error', e); }
+      try { data.inclusions = JSON.parse(data.inclusions); } catch (e) { data.inclusions = []; }
     }
     if (data.exclusions && typeof data.exclusions === 'string') {
-      try { data.exclusions = JSON.parse(data.exclusions); } catch (e) { console.error('exclusions parse error', e); }
+      try { data.exclusions = JSON.parse(data.exclusions); } catch (e) { data.exclusions = []; }
     }
     if (req.file) {
       const baseUrl = `${req.protocol}://${req.get('host')}`;

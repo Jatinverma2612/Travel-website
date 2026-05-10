@@ -7,7 +7,7 @@ const createPackageSchema = {
     duration: z.string().min(1, 'Duration is required'),
     description: z.string().min(1, 'Description is required'),
     image_url: z.string().url('Invalid URL format').optional().or(z.literal('')),
-  }),
+  }).passthrough(),
 };
 
 const updatePackageSchema = {
@@ -17,7 +17,7 @@ const updatePackageSchema = {
     duration: z.string().optional(),
     description: z.string().optional(),
     image_url: z.string().url('Invalid URL format').optional().or(z.literal('')),
-  }),
+  }).passthrough(),
   params: z.object({
     id: z.string().regex(/^\d+$/, 'Invalid ID format').transform(val => Number(val)),
   }),
