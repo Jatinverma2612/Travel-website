@@ -60,7 +60,7 @@ export default function ContactPage() {
                       {
                         icon: Mail,
                         title: "Official Email",
-                        detail: "info@bharatyatratravels.com",
+                        detail: "info@bharatyatratravels.com\nbharatyaatra@outlook.com",
                         color: "bg-indigo-100 text-indigo-600"
                       },
                     ].map((c) => (
@@ -75,7 +75,7 @@ export default function ContactPage() {
                           <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">
                             {c.title}
                           </p>
-                          <p className="text-gray-700 text-[14px] font-medium leading-relaxed leading-snug">{c.detail}</p>
+                          <p className="text-gray-700 text-[14px] font-medium leading-relaxed whitespace-pre-line">{c.detail}</p>
                         </div>
                       </div>
                     ))}

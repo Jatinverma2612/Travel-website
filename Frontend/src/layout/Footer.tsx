@@ -210,12 +210,18 @@ export function Footer() {
                 <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-slate-400 group-hover:text-blue-400 group-hover:border-blue-500/40 transition-all duration-300">
                   <Mail className="h-4 w-4" />
                 </div>
-                <div className="flex-1 text-left">
+                <div className="flex-1 text-left flex flex-col gap-1">
                   <a
                     href="mailto:info@bharatyatratravels.com"
                     className="text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors duration-300 break-all"
                   >
                     info@bharatyatratravels.com
+                  </a>
+                  <a
+                    href="mailto:bharatyaatra@outlook.com"
+                    className="text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors duration-300 break-all"
+                  >
+                    bharatyaatra@outlook.com
                   </a>
                 </div>
               </li>
