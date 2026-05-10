@@ -208,7 +208,7 @@ export default async function PackageDetailPage({
                   <CheckCircle className="h-5 w-5 text-green-600" />
                 </div>
                 <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
-                  Everything Included
+                  Inclusions
                 </h2>
               </div>
               <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
@@ -234,7 +234,7 @@ export default async function PackageDetailPage({
                   <XCircle className="h-5 w-5 text-red-500" />
                 </div>
                 <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
-                  Not Included
+                  Exclusions
                 </h2>
               </div>
               <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
