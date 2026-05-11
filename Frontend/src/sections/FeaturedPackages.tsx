@@ -3,7 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import { IndianRupee, ArrowRight, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import axiosInstance from "@/lib/axiosInstance";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -53,24 +53,38 @@ function PackageSkeleton() {
   );
 }
  
-export function FeaturedPackages() {
+export const FeaturedPackages = memo(function FeaturedPackages() {
   const [packages, setPackages] = useState<{ id: number; title: string; price: number; duration: string; description: string; image_url?: string; image?: string }[]>([]);
   const [loading, setLoading] = useState(true);
  
   useEffect(() => {
-    axiosInstance.get(`/packages?limit=4`)
+    const controller = new AbortController();
+    
+    axiosInstance.get(`/packages?limit=4`, { signal: controller.signal })
       .then(res => {
+        console.log("FeaturedPackages: Full API Response:", res.data);
         const data = res.data?.data || res.data;
+        console.log("FeaturedPackages: Extracted Data:", data);
         const featured = Array.isArray(data) ? data.slice(0, 4) : [];
+        console.log("FeaturedPackages: Packages Array:", featured);
+        console.log("FeaturedPackages: Package Count:", featured.length);
         setPackages(featured);
       })
       .catch(err => {
-        console.error("Failed to fetch featured packages:", err);
+        if (err.name !== 'AbortError' && err.code !== 'ERR_CANCELED') {
+          console.error("Failed to fetch featured packages:", err);
+        }
       })
       .finally(() => {
         setLoading(false);
       });
+
+    return () => {
+      controller.abort();
+    };
   }, []);
+
+  console.log("FINAL PACKAGES:", packages);
  
   return (
     <section className="py-20 sm:py-32 bg-slate-50/30" id="packages">
@@ -109,24 +123,24 @@ export function FeaturedPackages() {
         </div>
  
         {/* Packages Grid */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {loading ? (
             Array(4).fill(0).map((_, i) => (
-              <motion.div key={i} variants={item}>
+              <div key={i} className="bg-gray-100 p-5 rounded-2xl">
                 <PackageSkeleton />
-              </motion.div>
+              </div>
             ))
+          ) : packages.length === 0 ? (
+            <div className="col-span-full text-center py-10 text-gray-500">
+              No featured packages found.
+            </div>
           ) : (
-            packages.map((pkg, i) => (
+            (Array.isArray(packages) ? packages : []).map((pkg, i) => (
               <motion.div
                 key={pkg?.id ?? i}
-                variants={item}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ 
                   y: -8, 
                   scale: 1.01,
@@ -151,7 +165,7 @@ export function FeaturedPackages() {
                   {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
                 </div>
- 
+
                 {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="font-bold text-gray-900 text-[15px] leading-snug mb-2 line-clamp-2 group-hover:text-blue-700 transition-colors duration-200">
@@ -160,7 +174,7 @@ export function FeaturedPackages() {
                   <p className="text-[13px] text-gray-400 mb-5 line-clamp-2 leading-relaxed flex-1">
                     {pkg?.description || "No description available."}
                   </p>
- 
+
                   <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                     <div>
                       <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5 font-medium">
@@ -168,7 +182,7 @@ export function FeaturedPackages() {
                       </p>
                       <div className="flex items-center gap-0.5 text-blue-700 font-extrabold text-lg leading-none">
                         <IndianRupee className="h-4 w-4" />
-                        <span>{(pkg?.price || 0).toLocaleString()}</span>
+                        <span>{Number(pkg?.price || 0).toLocaleString()}</span>
                       </div>
                     </div>
                     <Link
@@ -183,7 +197,7 @@ export function FeaturedPackages() {
               </motion.div>
             ))
           )}
-        </motion.div>
+        </div>
  
         {/* Bottom CTA */}
         <motion.div
@@ -213,4 +227,4 @@ export function FeaturedPackages() {
       </div>
     </section>
   );
-}
+});
