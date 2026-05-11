@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { packageService } from "@/services/package.service";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 export const PackagesAdmin = () => {
   const [packages, setPackages] = useState<any[]>([]);
@@ -113,7 +114,7 @@ export const PackagesAdmin = () => {
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
                         <img
-                          src={pkg.image_url || pkg.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800"}
+                          src={getOptimizedImageUrl(pkg.image_url || pkg.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800", 100)}
                           alt={pkg.title}
                           className="w-full h-full object-cover"
                         />
@@ -177,7 +178,7 @@ export const PackagesAdmin = () => {
               <div className="flex gap-4">
                 <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
                   <img
-                    src={pkg.image_url || pkg.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800"}
+                    src={getOptimizedImageUrl(pkg.image_url || pkg.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800", 160)}
                     alt={pkg.title}
                     className="w-full h-full object-cover"
                   />

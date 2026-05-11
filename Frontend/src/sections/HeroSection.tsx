@@ -86,7 +86,10 @@ export function HeroSection() {
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div
+              <motion.div
+                initial={{ scale: 1 }}
+                animate={{ scale: currentSlide === index ? 1.1 : 1 }}
+                transition={{ duration: 5, ease: "linear" }}
                 className="w-full h-full brightness-[1.05] contrast-[1.05]"
                 style={{
                   backgroundImage: `url('${slide.image}')`,
@@ -100,8 +103,8 @@ export function HeroSection() {
       </div>
 
       {/* Clean overlay for maximum image clarity and text readability */}
-      <div className="absolute inset-0 z-0 bg-black/20 pointer-events-none opacity-90" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none opacity-90" />
+      <div className="absolute inset-0 z-0 bg-black/25 pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/50 via-transparent to-transparent pointer-events-none" />
 
       {/* Navigation Arrows */}
       <div className="absolute inset-y-0 left-4 sm:left-8 z-20 flex items-center hidden sm:flex">
@@ -129,7 +132,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
+            transition={{ delay: 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center gap-2 mb-5 sm:mb-7"
           >
             <span className="flex items-center gap-1.5 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest backdrop-blur-sm shadow-xl">
@@ -141,56 +144,65 @@ export function HeroSection() {
           {/* Headline */}
           <motion.h1
             key={`title-${currentSlide}`}
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl sm:text-5xl md:text-[4.5rem] font-extrabold text-white leading-[1.1] tracking-tight mb-5 sm:mb-6 drop-shadow-2xl"
           >
             {slides[currentSlide]?.title}
             <br />
             <span className="text-amber-400">{slides[currentSlide]?.highlight}</span>
           </motion.h1>
-
+ 
           {/* Sub text */}
           <motion.p
             key={`desc-${currentSlide}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-base sm:text-lg text-blue-50/90 mb-8 sm:mb-10 leading-[1.8] max-w-lg drop-shadow-md font-medium"
           >
             {slides[currentSlide]?.description}
           </motion.p>
-
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="flex flex-col xs:flex-row sm:flex-row gap-3"
+            transition={{ 
+              delay: 0.5, 
+              type: "spring", 
+              stiffness: 100, 
+              damping: 20 
+            }}
+            className="flex flex-col xs:flex-row sm:flex-row gap-4"
           >
             <Link
               href="/packages"
               id="hero-explore-btn"
-              className="inline-flex items-center justify-center gap-2 bg-amber-400 text-amber-950 hover:bg-blue-600 hover:text-white font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base transition-all duration-300 hover:shadow-2xl hover:shadow-amber-400/30 hover:scale-[1.02] active:scale-[0.98] group"
+              className="inline-flex items-center justify-center gap-2 bg-amber-400 text-amber-950 hover:bg-blue-600 hover:text-white font-bold px-8 py-4 rounded-xl text-sm sm:text-base transition-all duration-500 hover:shadow-2xl hover:shadow-amber-400/30 hover:scale-[1.05] active:scale-[0.95] group"
             >
               Explore Packages
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/contact"
               id="hero-contact-btn"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white hover:text-black text-white font-semibold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base border border-white/25 backdrop-blur-md shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white hover:text-black text-white font-semibold px-8 py-4 rounded-xl text-sm sm:text-base border border-white/25 backdrop-blur-md shadow-xl hover:scale-[1.05] active:scale-[0.95] transition-all duration-500"
             >
               Talk to an Expert
             </Link>
           </motion.div>
-
+ 
           {/* Stats strip */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 0.7 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ 
+              delay: 0.7, 
+              type: "spring", 
+              stiffness: 80, 
+              damping: 15 
+            }}
             className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-white/20 grid grid-cols-3 gap-4 sm:gap-6 max-w-xs sm:max-w-sm pointer-events-auto"
           >
             {[
@@ -198,14 +210,15 @@ export function HeroSection() {
               { value: 10, label: "Happy Travellers", suffix: "K+" },
               { value: 15, label: "Years Experience", suffix: "+" },
             ].map((s) => (
-              <div key={s.label} className="text-center">
-                <p className="text-2xl sm:text-3xl font-extrabold text-amber-400 leading-none mb-1 drop-shadow-md">
-                  <AnimatedCounter to={s.value} suffix={s.suffix} duration={2} />
+              <div key={s.label} className="text-center group/stat">
+                <p className="text-2xl sm:text-3xl font-extrabold text-amber-400 leading-none mb-1 drop-shadow-md group-hover/stat:scale-110 transition-transform duration-500">
+                  <AnimatedCounter to={s.value} suffix={s.suffix} duration={2.5} />
                 </p>
-                <p className="text-[10px] sm:text-xs text-white font-medium leading-tight shadow-black drop-shadow-sm">{s.label}</p>
+                <p className="text-[10px] sm:text-xs text-white font-medium leading-tight shadow-black drop-shadow-sm opacity-80 group-hover/stat:opacity-100 transition-opacity">{s.label}</p>
               </div>
             ))}
           </motion.div>
+
         </div>
       </div>
 

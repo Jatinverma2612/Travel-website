@@ -6,6 +6,8 @@ import { RefreshCw, Camera } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/utils";
 import "swiper/css";
 
 interface GalleryImage {
@@ -74,10 +76,13 @@ export function HappyCustomersSection() {
               modules={[Autoplay]}
               spaceBetween={16}
               slidesPerView={1.2}
-              speed={800}
+              speed={1000}
+              grabCursor={true}
+              watchSlidesProgress={true}
               autoplay={{
-                delay: 2500,
+                delay: 3000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true
               }}
               loop={images.length > 3}
               breakpoints={{
@@ -86,24 +91,23 @@ export function HappyCustomersSection() {
                 1024: { slidesPerView: 4.5, spaceBetween: 24 },
               }}
               className="px-4 pb-12 sm:px-0"
-              style={{ paddingBottom: '2rem' }}
+              style={{ paddingBottom: '2.5rem' }}
             >
               {images.map((img, i) => (
-                <SwiperSlide key={img.id}>
+                <SwiperSlide key={img?.id || i}>
                   <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-30px" }}
-                    transition={{ duration: 0.5, delay: (i % 6) * 0.08, ease: "easeOut" }}
-                    className="group relative overflow-hidden rounded-[2rem] cursor-pointer bg-slate-200 shadow-sm hover:shadow-2xl hover:shadow-blue-900/20 transition-all duration-500 aspect-[4/5] flex"
+                    transition={{ type: "spring", stiffness: 60, damping: 20, delay: (i % 6) * 0.05 }}
+                    className="group relative overflow-hidden rounded-[2rem] cursor-grab bg-slate-200 shadow-sm hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 aspect-[4/5] flex"
                   >
-                    <img
-                      src={img.image_url}
+                    <Image
+                      src={getOptimizedImageUrl(img.image_url || "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=800", 600)}
                       alt={`Happy Customer ${i + 1}`}
-                      className="w-full h-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.05]"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=800";
-                      }}
+                      fill
+                      className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05] animate-smooth-fade"
+                      sizes="(max-width: 640px) 80vw, (max-width: 1024px) 33vw, 20vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-blue-950/60 via-blue-950/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex flex-col justify-end p-6">
                       <motion.div 

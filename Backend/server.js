@@ -45,10 +45,10 @@ app.use(cors({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 1000, // Increased for development stability
   message: 'Too many requests from this IP, please try again after 15 minutes',
 });
-app.use('/api', limiter);
+// app.use('/api', limiter); // Disabled for development
 
 app.use(express.json()); // Parses incoming JSON requests
 app.use(express.urlencoded({ extended: true }));

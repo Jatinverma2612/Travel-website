@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { CheckCircle2, Star } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/utils";
 import AnimatedCounter from "@/components/AnimatedCounter";
 
 const features = [
@@ -38,10 +40,10 @@ export function WhyChooseUsSection() {
 
           {/* Left Content */}
           <motion.div
-            initial={{ opacity: 0, x: -32 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ type: "spring", stiffness: 60, damping: 20 }}
             className="order-2 lg:order-1"
           >
             <span className="text-blue-600 text-xs font-bold uppercase tracking-widest block mb-2">
@@ -101,28 +103,30 @@ export function WhyChooseUsSection() {
 
           {/* Right Image Layout */}
           <motion.div
-            initial={{ opacity: 0, x: 32 }}
+            initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ type: "spring", stiffness: 60, damping: 20 }}
             className="order-1 lg:order-2 relative"
           >
             {/* Main Image */}
             <div className="relative rounded-3xl overflow-hidden aspect-[4/5] lg:aspect-square shadow-2xl shadow-blue-900/10 group">
-              <img
-                src="https://plus.unsplash.com/premium_photo-1676571232331-787a2c679aee?q=80&w=705&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              <Image
+                src={getOptimizedImageUrl("https://plus.unsplash.com/premium_photo-1676571232331-787a2c679aee?q=80&w=705&auto=format&fit=crop", 1000)}
                 alt="Traveller looking at mountains"
-                className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
+                fill
+                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04] animate-smooth-fade"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent" />
             </div>
-
+ 
             {/* Floating Experience Card */}
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.55 }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 100, damping: 15 }}
               className="absolute -bottom-6 -left-6 sm:-left-10 bg-white p-5 sm:p-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 z-10"
             >
               <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center shrink-0">

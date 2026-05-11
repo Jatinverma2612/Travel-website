@@ -3,6 +3,8 @@
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 const destinations = [
   {
@@ -39,13 +41,20 @@ const destinations = [
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.085 } },
+  show: { transition: { staggerChildren: 0.1 } },
 };
 const item: Variants = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
   show: {
-    opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.48, ease: [0.25, 0.46, 0.45, 0.94] },
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { 
+      type: "spring",
+      stiffness: 80,
+      damping: 15,
+      mass: 1
+    },
   },
 };
 
@@ -91,10 +100,12 @@ export function DestinationsSection() {
               className="group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer shadow-sm hover:shadow-2xl hover:shadow-gray-900/20 transition-shadow duration-400"
             >
               {/* Image */}
-              <img
-                src={d.image}
+              <Image
+                src={getOptimizedImageUrl(d.image, 600)}
                 alt={d.name}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.09]"
+                fill
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.09] animate-smooth-fade"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               />
 
               {/* Permanent dark gradient */}

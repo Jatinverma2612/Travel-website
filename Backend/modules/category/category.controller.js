@@ -1,5 +1,6 @@
 const categoryService = require('./category.service');
 const catchAsync = require('../../utils/catchAsync');
+const cloudinary = require('../../config/cloudinary');
 
 const getCategories = catchAsync(async (req, res) => {
   const categories = await categoryService.getAllCategories();
@@ -12,7 +13,8 @@ const getCategory = catchAsync(async (req, res) => {
 });
 
 const getCategoryBySlug = catchAsync(async (req, res) => {
-  const category = await categoryService.getCategoryBySlug(req.params.slug);
+  const decodedSlug = decodeURIComponent(req.params.slug);
+  const category = await categoryService.getCategoryBySlug(decodedSlug);
   res.status(200).json({ success: true, data: category });
 });
 
@@ -27,10 +29,19 @@ const createCategory = catchAsync(async (req, res) => {
     try { data.keyHighlights = JSON.parse(data.keyHighlights); } catch (e) { console.error('keyHighlights parse error', e); }
   }
 
-  // Handle image upload if any (similar to packages)
+  // Handle image upload to Cloudinary
   if (req.file) {
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
-    data.bannerImage = `${baseUrl}/uploads/${req.file.filename}`;
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: 'categories' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+      stream.end(req.file.buffer);
+    });
+    data.bannerImage = result.secure_url;
   }
 
   const category = await categoryService.createCategory(data);
@@ -48,8 +59,17 @@ const updateCategory = catchAsync(async (req, res) => {
   }
 
   if (req.file) {
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
-    data.bannerImage = `${baseUrl}/uploads/${req.file.filename}`;
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: 'categories' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+      stream.end(req.file.buffer);
+    });
+    data.bannerImage = result.secure_url;
   }
 
   const category = await categoryService.updateCategory(req.params.id, data);

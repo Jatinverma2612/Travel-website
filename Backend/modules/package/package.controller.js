@@ -1,11 +1,13 @@
 const packageService = require('./package.service');
+const cloudinary = require('../../config/cloudinary');
 
 const getPackages = async (req, res) => {
   try {
     console.log('[API] GET /packages - Starting DB query');
+    const { limit, offset } = req.query;
     
     // DB query will naturally return [] if empty, or throw if connection/schema fails
-    const packages = await packageService.getPackages();
+    const packages = await packageService.getPackages({ limit, offset });
     
     console.log(`[API] GET /packages - DB query successful, found ${packages.length} records`);
 
@@ -68,8 +70,17 @@ const createPackage = async (req, res) => {
       try { data.exclusions = JSON.parse(data.exclusions); } catch (e) { data.exclusions = []; }
     }
     if (req.file) {
-      const baseUrl = `${req.protocol}://${req.get('host')}`;
-      data.image_url = `${baseUrl}/uploads/${req.file.filename}`;
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: 'packages' },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(req.file.buffer);
+      });
+      data.image_url = result.secure_url;
     }
     const newPackage = await packageService.createPackage(data);
     console.log('[API] POST /packages - DB query successful');
@@ -104,8 +115,17 @@ const updatePackage = async (req, res) => {
       try { data.exclusions = JSON.parse(data.exclusions); } catch (e) { data.exclusions = []; }
     }
     if (req.file) {
-      const baseUrl = `${req.protocol}://${req.get('host')}`;
-      data.image_url = `${baseUrl}/uploads/${req.file.filename}`;
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: 'packages' },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(req.file.buffer);
+      });
+      data.image_url = result.secure_url;
     }
     const updatedPackage = await packageService.updatePackage(req.params.id, data);
     console.log(`[API] PUT /packages/${req.params.id} - DB query successful`);

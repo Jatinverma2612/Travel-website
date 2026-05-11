@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../../middleware/auth.middleware');
 const validate = require('../../middleware/validate.middleware');
-const upload = require('../../middleware/upload');
+const upload = require('../../middleware/memoryUpload');
 const { createPackageSchema, updatePackageSchema, getPackageSchema } = require('./package.validation');
 const packageController = require('./package.controller');
 

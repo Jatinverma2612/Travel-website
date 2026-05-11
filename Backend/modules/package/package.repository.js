@@ -1,8 +1,13 @@
 const prisma = require('../../config/db');
 
-const findAllPackages = async () => {
+const findAllPackages = async (options = {}) => {
+  const limit = options.limit ? parseInt(options.limit) : undefined;
+  const offset = options.offset ? parseInt(options.offset) : undefined;
+
   return await prisma.package.findMany({
     orderBy: { created_at: 'desc' },
+    ...(Number.isInteger(limit) && { take: limit }),
+    ...(Number.isInteger(offset) && { skip: offset }),
   });
 };
 

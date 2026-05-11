@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 
 const Toaster = dynamic(
   () => import("react-hot-toast").then((mod) => mod.Toaster),
@@ -10,6 +9,11 @@ const Toaster = dynamic(
 
 const AuthInitializer = dynamic(
   () => import("@/components/AuthInitializer"),
+  { ssr: false }
+);
+
+const SmoothScrollProvider = dynamic(
+  () => import("@/components/SmoothScrollProvider").then((mod) => mod.SmoothScrollProvider),
   { ssr: false }
 );
 
