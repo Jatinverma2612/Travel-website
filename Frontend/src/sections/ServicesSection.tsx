@@ -86,7 +86,7 @@ export function ServicesSection() {
               <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${service.color} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out`} />
 
               {/* Icon */}
-              <div className={`w-13 h-13 w-14 h-14 ${service.bg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-translate-y-0.5 transition-transform duration-300 ease-out shadow-sm`}>
+              <div className={`w-14 h-14 ${service.bg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-translate-y-0.5 transition-transform duration-300 ease-out shadow-sm`}>
                 <service.icon className={`h-6 w-6 ${service.iconColor}`} />
               </div>
 

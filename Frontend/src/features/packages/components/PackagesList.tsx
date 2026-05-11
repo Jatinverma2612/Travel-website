@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Package, Clock, Tag, ArrowRight, Search, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 export function PackagesList({ initialPackages }: { initialPackages: any[] }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,22 +62,24 @@ export function PackagesList({ initialPackages }: { initialPackages: any[] }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPackages.map((pkg, i) => (
               <motion.div
-                key={pkg.id}
+                key={pkg?.id || i}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className="group flex flex-col bg-slate-50/50 rounded-[2.5rem] overflow-hidden border border-slate-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_32px_64px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 relative"
               >
                 <div className="h-64 overflow-hidden relative">
-                  <img 
-                    src={pkg.image_url || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800"} 
-                    alt={pkg.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                  <Image 
+                    src={getOptimizedImageUrl(pkg?.image_url || pkg?.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800", 800)} 
+                    alt={pkg?.title || "Package"}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-1000 animate-smooth-fade"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <div className="absolute top-6 left-6">
+                  <div className="absolute top-6 left-6 z-10">
                     <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-2xl flex items-center gap-2 text-blue-600 font-black text-[10px] shadow-lg border border-white/20 tracking-widest uppercase">
                       <Tag className="h-3.5 w-3.5" />
-                      {pkg.tagline || "Premium Choice"}
+                      {pkg?.tagline || "Premium Choice"}
                     </div>
                   </div>
                 </div>
@@ -84,30 +88,30 @@ export function PackagesList({ initialPackages }: { initialPackages: any[] }) {
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                       <Clock className="h-4 w-4 text-blue-500" />
-                      {pkg.duration}
+                      {pkg?.duration || "N/A"}
                     </div>
                     <div className="text-xl font-black text-slate-900">
-                      ₹{pkg.price.toLocaleString()}
+                      ₹{(pkg?.price || 0).toLocaleString()}
                     </div>
                   </div>
                   
                   <h3 className="text-xl font-black text-slate-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight">
-                    {pkg.title}
+                    {pkg?.title || "Untitled Package"}
                   </h3>
                   
                   <p className="text-[14px] text-slate-500 mb-8 line-clamp-2 leading-relaxed font-medium flex-1">
-                    {pkg.description}
+                    {pkg?.description || "No description available."}
                   </p>
                   
                   <div className="flex items-center gap-3 mt-auto pt-6 border-t border-slate-200/50">
                     <Link 
-                      href={`/booking?packageId=${pkg.id}&packageTitle=${encodeURIComponent(pkg.title)}`}
+                      href={`/booking?packageId=${pkg?.id || 0}&packageTitle=${encodeURIComponent(pkg?.title || "")}`}
                       className="flex-1 bg-slate-900 hover:bg-blue-600 text-white font-bold py-4 rounded-2xl text-center text-sm shadow-xl shadow-slate-900/10 hover:shadow-blue-600/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                     >
                       Book Now
                     </Link>
                     <Link 
-                      href={`/package/${pkg.id}`}
+                      href={`/package/${pkg?.id || 0}`}
                       className="w-14 h-14 flex items-center justify-center border border-slate-200 rounded-2xl hover:bg-blue-50 transition-all duration-300 group/btn shadow-sm hover:border-blue-200"
                     >
                       <ArrowRight className="h-5 w-5 text-slate-400 group-hover/btn:text-blue-600 transition-colors" />

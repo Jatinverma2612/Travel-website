@@ -22,12 +22,29 @@ const getCategoryById = async (id) => {
 };
 
 const getCategoryBySlug = async (slug) => {
-  const category = await prisma.tourCategory.findUnique({
+  // First try exact match
+  let category = await prisma.tourCategory.findUnique({
     where: { slug },
     include: {
       packages: true
     }
   });
+
+  // If not found, try case-insensitive match (using findFirst since findUnique is case-sensitive)
+  if (!category) {
+    category = await prisma.tourCategory.findFirst({
+      where: {
+        slug: {
+          equals: slug,
+          mode: 'insensitive'
+        }
+      },
+      include: {
+        packages: true
+      }
+    });
+  }
+
   if (!category) throw new ApiError(404, 'Category not found');
   return category;
 };

@@ -16,6 +16,8 @@ import {
   Calendar,
 } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 interface TimelineDay {
   day: string;
@@ -67,14 +69,16 @@ export default async function PackageDetailPage({
   return (
     <div className="min-h-screen bg-slate-50/50">
       {/* Banner Section */}
-      <div
-        className="relative h-[65vh] flex items-end overflow-hidden"
-        style={{
-          backgroundImage: `url('${pkg.image}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center 40%",
-        }}
-      >
+      <div className="relative h-[65vh] flex items-end overflow-hidden">
+        <Image
+          src={getOptimizedImageUrl(pkg.image, 1920)}
+          alt={pkg.title}
+          fill
+          priority
+          className="object-cover object-[center_40%]"
+          sizes="100vw"
+        />
+
         <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent" />
         <div className="absolute inset-0 bg-blue-900/10" />
 

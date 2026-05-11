@@ -1,8 +1,8 @@
 const ApiError = require('../../utils/ApiError');
 const packageRepository = require('./package.repository');
 
-const getPackages = async () => {
-  return await packageRepository.findAllPackages();
+const getPackages = async (options) => {
+  return await packageRepository.findAllPackages(options);
 };
 
 const getPackageById = async (id) => {

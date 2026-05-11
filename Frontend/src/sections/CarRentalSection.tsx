@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/lib/axiosInstance";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import Image from "next/image";
+import { getOptimizedImageUrl } from "@/lib/utils";
 import "swiper/css";
 
 const fleet = [
@@ -153,12 +155,14 @@ export function CarRentalSection() {
                 <div className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 hover:-translate-y-2 h-full flex flex-col overflow-hidden">
                   {/* Image Block */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
-                    <img
-                      src={car.image}
+                    <Image
+                      src={getOptimizedImageUrl(car.image, 600)}
                       alt={car.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm">
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm z-10">
                       <span className="text-[11px] font-black text-blue-600 uppercase tracking-wider">{car.category}</span>
                     </div>
                   </div>
