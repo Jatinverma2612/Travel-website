@@ -12,10 +12,12 @@ export function PackagesList({ initialPackages }: { initialPackages: any[] }) {
 
   const packageArray = Array.isArray(initialPackages) ? initialPackages : [];
 
-  const filteredPackages = packageArray.filter(pkg => 
-    pkg?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    pkg?.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPackages = packageArray.filter(pkg => {
+    const title = pkg?.title?.toLowerCase() || "";
+    const desc = pkg?.description?.toLowerCase() || "";
+    const search = searchTerm.toLowerCase();
+    return title.includes(search) || desc.includes(search);
+  });
 
   return (
     <div className="bg-slate-50 min-h-screen pt-32 pb-24">

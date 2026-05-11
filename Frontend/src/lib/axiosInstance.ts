@@ -35,6 +35,9 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    if (axios.isCancel(error)) {
+      return Promise.reject(error);
+    }
     const originalRequest = error?.config;
 
     // If 401 and not already retrying
