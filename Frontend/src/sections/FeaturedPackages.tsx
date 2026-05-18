@@ -62,12 +62,8 @@ export const FeaturedPackages = memo(function FeaturedPackages() {
     
     axiosInstance.get(`/packages?limit=4`, { signal: controller.signal })
       .then(res => {
-        console.log("FeaturedPackages: Full API Response:", res.data);
         const data = res.data?.data || res.data;
-        console.log("FeaturedPackages: Extracted Data:", data);
         const featured = Array.isArray(data) ? data.slice(0, 4) : [];
-        console.log("FeaturedPackages: Packages Array:", featured);
-        console.log("FeaturedPackages: Package Count:", featured.length);
         setPackages(featured);
       })
       .catch(err => {

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const Toaster = dynamic(
   () => import("react-hot-toast").then((mod) => mod.Toaster),
@@ -18,21 +19,31 @@ const SmoothScrollProvider = dynamic(
 );
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <>
-      <AuthInitializer />
-      <Toaster 
-        position="top-center"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#fff',
-            color: '#0f172a',
-            borderRadius: '16px',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-          },
-        }}
-      />
+      {mounted && (
+        <>
+          <AuthInitializer />
+          <Toaster 
+            position="top-center"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: '#fff',
+                color: '#0f172a',
+                borderRadius: '16px',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+              },
+            }}
+          />
+        </>
+      )}
       <SmoothScrollProvider>
         {children}
       </SmoothScrollProvider>

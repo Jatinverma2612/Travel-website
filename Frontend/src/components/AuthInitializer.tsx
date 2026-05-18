@@ -1,12 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 
 export default function AuthInitializer() {
-  const initAuth = useAuthStore((state) => state.initAuth);
+  const [mounted, setMounted] = useState(false);
+  
   useEffect(() => {
-    initAuth();
-  }, [initAuth]);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      useAuthStore.getState().initAuth();
+    }
+  }, [mounted]);
+
   return null;
 }

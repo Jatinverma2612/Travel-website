@@ -81,9 +81,18 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    // Handle other errors
-    const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
-    showToast('error', message);
+    // Only show toast for admin pages or write operations (POST/PUT/DELETE)
+    // Public GET failures (e.g. category fetch in Navbar) should fail silently
+    if (typeof window !== 'undefined') {
+      const isAdminPage = window.location.pathname.startsWith('/admin');
+      const isWriteMethod = ['post', 'put', 'patch', 'delete'].includes(
+        (error.config?.method || '').toLowerCase()
+      );
+      if (isAdminPage || isWriteMethod) {
+        const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
+        showToast('error', message);
+      }
+    }
     return Promise.reject(error);
   }
 );
