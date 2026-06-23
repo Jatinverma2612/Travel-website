@@ -5,6 +5,7 @@ import { Send, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import axiosInstance from "@/lib/axiosInstance";
+import { trackGoogleConversion } from "@/lib/googleAds";
 
 export function ContactForm() {
   const [form, setForm] = useState({
@@ -20,6 +21,7 @@ export function ContactForm() {
     e.preventDefault();
     try {
       await axiosInstance.post(`/enquiries`, form);
+      trackGoogleConversion();
       setSubmitted(true);
       toast.success("Message sent successfully");
       setForm({ name: "", email: "", phone: "", subject: "", message: "" });

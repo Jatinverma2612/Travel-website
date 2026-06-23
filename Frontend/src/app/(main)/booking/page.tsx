@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, ShieldCheck, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/lib/axiosInstance";
+import { trackGoogleConversion } from "@/lib/googleAds";
 
 function BookingForm() {
   const searchParams = useSearchParams();
@@ -46,6 +47,7 @@ function BookingForm() {
 
     try {
       await axiosInstance.post(`/bookings`, form);
+      trackGoogleConversion();
 
       setSubmitted(true);
       toast.success("Message sent successfully");

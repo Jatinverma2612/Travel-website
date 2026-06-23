@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Users, CheckCircle2, X, Send, Loader2, CarFront } from "lucide-react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/lib/axiosInstance";
+import { trackGoogleConversion } from "@/lib/googleAds";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import Image from "next/image";
@@ -99,6 +100,7 @@ export function CarRentalSection() {
         ...contactForm,
         subject: `Car Rental Enquiry: ${selectedCar}`,
       });
+      trackGoogleConversion();
       toast.success("Enquiry Sent Successfully!");
       setSubmitted(true);
     } catch (err: unknown) {

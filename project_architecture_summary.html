@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bharat Yaatra Travels - Project Architecture Summary</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            title: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              blue: '#2563eb',
+              blueDark: '#1d4ed8',
+              gold: '#f59e0b',
+              slate: '#0f172a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @media print {
+      body {
+        background-color: #ffffff;
+        color: #000000;
+      }
+      .no-print {
+        display: none;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Header / Action Bar (Invisible when printing) -->
+  <div class="no-print bg-amber-50 border-b border-amber-200 py-3 px-4 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="flex h-3.5 w-3.5 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-blue-600"></span>
+        </span>
+        <p class="text-sm font-medium text-amber-900">
+          Ready to export! Open this file in your browser, press <kbd class="px-1.5 py-0.5 bg-white border border-amber-300 rounded shadow-sm font-mono text-xs">Ctrl + P</kbd> (or Cmd + P) and choose <strong>"Save as PDF"</strong>.
+        </p>
+      </div>
+      <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-all shadow hover:shadow-md cursor-pointer">
+        🖨️ Print / Save to PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto my-8 p-8 md:p-12 bg-white rounded-2xl border border-slate-100 shadow-xl md:shadow-2xl">
+    
+    <!-- Cover Header -->
+    <header class="border-b border-slate-100 pb-8 mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div>
+        <div class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full mb-3">
+          Architecture Summary Report
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold font-title text-slate-900 tracking-tight">
+          Bharat Yaatra <span class="text-blue-600">Travels</span>
+        </h1>
+        <p class="text-slate-500 mt-2 text-md font-medium">Production Stabilization & System Architecture Blueprint</p>
+      </div>
+      <div class="text-left md:text-right border-l-4 md:border-l-0 md:border-r-4 border-blue-600 pl-4 md:pl-0 md:pr-4 py-1">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Date Generated</p>
+        <p class="text-sm font-bold text-slate-700">May 19, 2026</p>
+        <p class="text-xs text-slate-400 mt-1">Status: <span class="text-green-600 font-bold">Production Ready</span></p>
+      </div>
+    </header>
+
+    <!-- Tech Stack Grid -->
+    <section class="mb-10">
+      <h2 class="text-xl font-bold font-title text-slate-900 mb-6 flex items-center gap-2">
+        <span class="p-1.5 bg-blue-50 text-blue-600 rounded-lg">🛠️</span> Core Technology Stack
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+          <h3 class="font-bold text-slate-800 text-sm mb-3 uppercase tracking-wider text-blue-600">Frontend (Client)</h3>
+          <ul class="space-y-2 text-sm text-slate-600 font-medium">
+            <li class="flex items-center gap-2">🔹 Next.js 16.2.2 (App Router)</li>
+            <li class="flex items-center gap-2">🔹 TailwindCSS v4</li>
+            <li class="flex items-center gap-2">🔹 Framer Motion 12 (Animations)</li>
+            <li class="flex items-center gap-2">🔹 Lenis 1.3 (Smooth Scroll)</li>
+            <li class="flex items-center gap-2">🔹 Zustand 5.0 (State Manager)</li>
+          </ul>
+        </div>
+        
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+          <h3 class="font-bold text-slate-800 text-sm mb-3 uppercase tracking-wider text-blue-600">Backend (API Layer)</h3>
+          <ul class="space-y-2 text-sm text-slate-600 font-medium">
+            <li class="flex items-center gap-2">🔹 Express.js (Node.js framework)</li>
+            <li class="flex items-center gap-2">🔹 JWT Token Authorization</li>
+            <li class="flex items-center gap-2">🔹 Cloudinary Image Bucket</li>
+            <li class="flex items-center gap-2">🔹 Resend API (Email Dispatcher)</li>
+            <li class="flex items-center gap-2">🔹 Helmet & Rate Limiter</li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+          <h3 class="font-bold text-slate-800 text-sm mb-3 uppercase tracking-wider text-blue-600">Database Layer</h3>
+          <ul class="space-y-2 text-sm text-slate-600 font-medium">
+            <li class="flex items-center gap-2">🔹 PostgreSQL Relational DB</li>
+            <li class="flex items-center gap-2">🔹 Prisma ORM</li>
+            <li class="flex items-center gap-2">🔹 Type-safe schemas</li>
+            <li class="flex items-center gap-2">🔹 Automated DB migrations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page Break for Premium PDF formatting -->
+    <div class="page-break"></div>
+
+    <!-- Database Schema Section -->
+    <section class="mb-10 mt-6">
+      <h2 class="text-xl font-bold font-title text-slate-900 mb-6 flex items-center gap-2">
+        <span class="p-1.5 bg-blue-50 text-blue-600 rounded-lg">🗄️</span> Database Schemas (Prisma Models)
+      </h2>
+      <div class="space-y-4">
+        <div class="border border-slate-150 rounded-xl p-5 hover:bg-slate-50/50 transition-all">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-slate-900">Admin Account Management</h3>
+            <span class="text-xs bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded-full font-bold uppercase">Admin Model</span>
+          </div>
+          <p class="text-sm text-slate-600 mb-2">Manages safe logins. Credentials are secured using hashed password keys (`bcrypt`) alongside safe active access JWT verification mechanisms.</p>
+          <code class="block bg-slate-900 text-slate-200 text-xs p-3 rounded-lg font-mono">id (UUID) | email (Unique) | password (Hashed) | resetOtp | otpExpiry | refresh_token</code>
+        </div>
+
+        <div class="border border-slate-150 rounded-xl p-5 hover:bg-slate-50/50 transition-all">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-slate-900">Tour & Destination Packages</h3>
+            <span class="text-xs bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full font-bold uppercase">Package Model</span>
+          </div>
+          <p class="text-sm text-slate-600 mb-2">Houses individual itinerary lists, pricing structures, star ratings, Day-by-Day timelines, category mappings, inclusions, and exclusions.</p>
+          <code class="block bg-slate-900 text-slate-200 text-xs p-3 rounded-lg font-mono">id (Int PK) | title | price | duration | description | image_url | timeline (Json) | inclusions (Json) | categoryId (FK)</code>
+        </div>
+
+        <div class="border border-slate-150 rounded-xl p-5 hover:bg-slate-50/50 transition-all">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-slate-900">Bookings & Inquiries</h3>
+            <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full font-bold uppercase">Transactional</span>
+          </div>
+          <p class="text-sm text-slate-600 mb-2">Holds active customer booking dates, guest information, and pending/approved reservation statuses mapped directly to packages.</p>
+          <code class="block bg-slate-900 text-slate-200 text-xs p-3 rounded-lg font-mono">Booking: id | name | email | date | status | package_id (FK) <br> Enquiry: id | name | email | message</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page Break for Premium PDF formatting -->
+    <div class="page-break"></div>
+
+    <!-- Core Engineering Accomplishments -->
+    <section class="mb-8 mt-6">
+      <h2 class="text-xl font-bold font-title text-slate-900 mb-6 flex items-center gap-2">
+        <span class="p-1.5 bg-blue-50 text-blue-600 rounded-lg">⚙️</span> Production Stabilization Engineering
+      </h2>
+      <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+        The application is 100% stable, fully compiled, and optimized. We carried out critical actions to secure this:
+      </p>
+
+      <div class="space-y-6">
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-green-50 text-green-600 font-bold text-sm">✓</div>
+          <div>
+            <h4 class="font-bold text-slate-800 text-md">Production Build pipeline Cleaned (`Exit code: 0`)</h4>
+            <p class="text-sm text-slate-500 mt-1 leading-relaxed">
+              Discovered and corrected environment variable mismatch. Integrated `cross-env NODE_ENV=production` explicitly inside build scripts in [package.json], preventing local development parameters from crashing production workers during build-time.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-green-50 text-green-600 font-bold text-sm">✓</div>
+          <div>
+            <h4 class="font-bold text-slate-800 text-md">Deferred Hydration Guard</h4>
+            <p class="text-sm text-slate-500 mt-1 leading-relaxed">
+              Implemented a deferred hydration strategy inside `ClientProviders.tsx` and `AuthInitializer.tsx`. Eager third-party initializations and Zustand browser storage checks are isolated until mounting occurs, fully preventing Next.js static site generation (SSG) worker errors.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-green-50 text-green-600 font-bold text-sm">✓</div>
+          <div>
+            <h4 class="font-bold text-slate-800 text-md">Silent Network Failures Management</h4>
+            <p class="text-sm text-slate-500 mt-1 leading-relaxed">
+              Streamlined Axios response interceptors inside `axiosInstance.ts` so that temporary GET load errors on public components (like categories loaded in navigation menus) fail silently instead of triggering intrusive modal toast warnings. Active write updates inside the Admin Dashboard remain protected.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer of Document -->
+    <footer class="border-t border-slate-100 pt-8 mt-12 text-center text-xs text-slate-400">
+      <p class="font-semibold text-slate-500">Bharat Yaatra Travels © 2026. All Rights Reserved.</p>
+      <p class="mt-1">Architectural Summary & Stabilization Report. Production Release v2.0</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
