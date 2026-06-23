@@ -1,7 +1,3 @@
-
-
-
-
 import { HeroSection } from "@/sections/HeroSection";
 import { FeaturedPackages } from "@/sections/FeaturedPackages";
 import { ServicesSection } from "@/sections/ServicesSection";

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Star, Quote, Send, Loader2, CheckCircle2 } from "lucide-react";
 import toast from "react-hot-toast";
 import axiosInstance from "@/lib/axiosInstance";
+import { trackGoogleConversion } from "@/lib/googleAds";
 
 import { getAllReviews, type Review } from "@/lib/reviews";
 export function TestimonialsSection() {
@@ -40,6 +41,7 @@ export function TestimonialsSection() {
     setSubmittingContact(true);
     try {
       await axiosInstance.post(`/enquiries`, contactForm);
+      trackGoogleConversion();
       toast.success("Message sent successfully!");
       setContactSubmitted(true);
       setContactForm({ name: "", email: "", phone: "", subject: "", message: "" });
